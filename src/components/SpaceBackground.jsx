@@ -12,8 +12,7 @@ const SpaceBackground = () => {
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
+              animationDelay: `${Math.random() * 3}s`
             }}
           />
         ))}
@@ -26,9 +25,8 @@ const SpaceBackground = () => {
             key={`meteor-${i}`}
             className="meteor"
             style={{
-              top: `${Math.random() * 50}%`,
-              animationDelay: `${i * 3}s`,
-              animationDuration: `${1.5 + Math.random()}s`
+              top: `${Math.random() * 60}%`,
+              animationDelay: `${i * 4}s`
             }}
           />
         ))}
@@ -36,13 +34,9 @@ const SpaceBackground = () => {
 
       {/* Rockets */}
       <div className="rockets-layer">
-        <div className="rocket rocket-1">
-          <div className="rocket-body">🚀</div>
-          <div className="rocket-flame"></div>
-        </div>
-        <div className="rocket rocket-2">
-          <div className="rocket-body">🛸</div>
-        </div>
+        <div className="rocket rocket-1">🚀</div>
+        <div className="rocket rocket-2">🛸</div>
+        <div className="rocket rocket-3">🚀</div>
       </div>
 
       {/* Floating Planets */}

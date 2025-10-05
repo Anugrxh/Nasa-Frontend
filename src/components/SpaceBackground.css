@@ -7,6 +7,14 @@
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
+  will-change: transform;
+}
+
+.space-background * {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 /* Stars */
@@ -22,13 +30,12 @@
   height: 2px;
   background: white;
   border-radius: 50%;
-  animation: twinkle 3s infinite;
-  box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+  animation: twinkle 3s ease-in-out infinite;
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.5); }
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
 }
 
 /* Meteors/Shooting Stars */
@@ -41,31 +48,19 @@
 .meteor {
   position: absolute;
   right: -100px;
-  width: 2px;
-  height: 2px;
-  background: linear-gradient(90deg, #fff, transparent);
-  border-radius: 50%;
-  animation: shootingStar 2s linear infinite;
-  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
-}
-
-.meteor::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 80px;
+  width: 60px;
   height: 2px;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), transparent);
+  animation: shootingStar 2.5s linear infinite;
 }
 
 @keyframes shootingStar {
   0% {
-    transform: translateX(0) translateY(0);
+    transform: translate3d(0, 0, 0);
     opacity: 1;
   }
   100% {
-    transform: translateX(-1000px) translateY(500px);
+    transform: translate3d(-1000px, 500px, 0);
     opacity: 0;
   }
 }
@@ -80,7 +75,6 @@
 .rocket {
   position: absolute;
   font-size: 2rem;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
 }
 
 .rocket-1 {
@@ -95,47 +89,36 @@
   animation: rocketFly2 30s linear infinite;
 }
 
-.rocket-body {
-  position: relative;
-  z-index: 2;
-}
-
-.rocket-flame {
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 10px;
-  height: 20px;
-  background: linear-gradient(180deg, #ff6b00, #ff0000, transparent);
-  border-radius: 50%;
-  animation: flameFlicker 0.2s infinite;
-}
-
-@keyframes flameFlicker {
-  0%, 100% { opacity: 0.8; transform: translateX(-50%) scaleY(1); }
-  50% { opacity: 1; transform: translateX(-50%) scaleY(1.2); }
+.rocket-3 {
+  top: 50%;
+  left: -100px;
+  animation: rocketFly3 28s linear infinite;
 }
 
 @keyframes rocketFly1 {
   0% {
-    left: -100px;
-    transform: rotate(45deg);
+    transform: translate3d(0, 0, 0) rotate(45deg);
   }
   100% {
-    left: calc(100% + 100px);
-    transform: rotate(45deg);
+    transform: translate3d(calc(100vw + 200px), 0, 0) rotate(45deg);
   }
 }
 
 @keyframes rocketFly2 {
   0% {
-    right: -100px;
-    transform: rotate(-135deg);
+    transform: translate3d(0, 0, 0) rotate(-135deg);
   }
   100% {
-    right: calc(100% + 100px);
-    transform: rotate(-135deg);
+    transform: translate3d(calc(-100vw - 200px), 0, 0) rotate(-135deg);
+  }
+}
+
+@keyframes rocketFly3 {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(60deg);
+  }
+  100% {
+    transform: translate3d(calc(100vw + 200px), 0, 0) rotate(60deg);
   }
 }
 
@@ -150,7 +133,6 @@
   position: absolute;
   font-size: 3rem;
   animation: floatPlanet 20s ease-in-out infinite;
-  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
 }
 
 .planet-1 {
@@ -172,12 +154,14 @@
   animation-delay: 10s;
 }
 
+
+
 @keyframes floatPlanet {
   0%, 100% {
-    transform: translateY(0) rotate(0deg);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translateY(-30px) rotate(180deg);
+    transform: translate3d(0, -30px, 0);
   }
 }
 
@@ -192,7 +176,6 @@
   position: absolute;
   font-size: 1.5rem;
   animation: orbitSatellite 15s linear infinite;
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
 }
 
 .satellite-1 {
@@ -206,12 +189,14 @@
   animation-delay: 7s;
 }
 
+
+
 @keyframes orbitSatellite {
   0% {
-    transform: rotate(0deg) translateX(50px) rotate(0deg);
+    transform: rotate(0deg) translate3d(50px, 0, 0);
   }
   100% {
-    transform: rotate(360deg) translateX(50px) rotate(-360deg);
+    transform: rotate(360deg) translate3d(50px, 0, 0);
   }
 }
 
@@ -226,7 +211,6 @@
   position: absolute;
   font-size: 1.5rem;
   animation: cometPath 20s ease-in-out infinite;
-  filter: drop-shadow(0 0 15px rgba(255, 200, 100, 0.6));
 }
 
 .comet-1 {
@@ -240,9 +224,11 @@
   animation-delay: 10s;
 }
 
+
+
 @keyframes cometPath {
   0% {
-    transform: translate(0, 0) rotate(45deg);
+    transform: translate3d(0, 0, 0);
     opacity: 0;
   }
   10% {
@@ -252,7 +238,7 @@
     opacity: 1;
   }
   100% {
-    transform: translate(-500px, 800px) rotate(45deg);
+    transform: translate3d(-500px, 800px, 0);
     opacity: 0;
   }
 }
@@ -330,5 +316,17 @@
   .nebula-3 {
     width: 200px;
     height: 200px;
+  }
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .rocket-3 {
+    display: none;
+  }
+  
+  .planet {
+    font-size: 2rem;
   }
 }

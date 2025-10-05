@@ -1,45 +1,101 @@
-import { useMemo } from 'react'
-import { BarChart, Bar, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-import './ExoplanetResults.css'
+import { useMemo } from "react";
+import {
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  RadarChart,
+  Radar,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import "./ExoplanetResults.css";
 
 const ExoplanetResults = ({ data }) => {
   const getPredictionStatus = (prediction) => {
-    if (prediction === 'FALSE POSITIVE' || prediction === 'False Positive') {
-      return { text: 'Not an Exoplanet', emoji: '❌', color: '#ef4444', description: 'This object is likely a false positive detection' }
-    } else if (prediction === 'CANDIDATE' || prediction === 'Planetary Candidate') {
-      return { text: 'Planetary Candidate', emoji: '🔍', color: '#f59e0b', description: 'This is an identified planetary candidate awaiting confirmation' }
+    if (prediction === "FALSE POSITIVE" || prediction === "False Positive") {
+      return {
+        text: "Not an Exoplanet",
+        emoji: "❌",
+        color: "#ef4444",
+        description: "This object is likely a false positive detection",
+      };
+    } else if (
+      prediction === "CANDIDATE" ||
+      prediction === "Planetary Candidate"
+    ) {
+      return {
+        text: "Planetary Candidate",
+        emoji: "🔍",
+        color: "#f59e0b",
+        description:
+          "This is an identified planetary candidate awaiting confirmation",
+      };
     } else {
-      return { text: 'Confirmed Exoplanet', emoji: '✅', color: '#10b981', description: 'This is a confirmed exoplanet' }
+      return {
+        text: "Confirmed Exoplanet",
+        emoji: "✅",
+        color: "#10b981",
+        description: "This is a confirmed exoplanet",
+      };
     }
-  }
+  };
 
-  const status = getPredictionStatus(data.prediction)
+  const status = getPredictionStatus(data.prediction);
 
   const confidenceData = useMemo(() => {
-    const confidence = parseFloat(data.confidence) || 0
+    const confidence = parseFloat(data.confidence) || 0;
     return [
-      { name: 'Confidence', value: confidence },
-      { name: 'Uncertainty', value: 100 - confidence }
-    ]
-  }, [data.confidence])
+      { name: "Confidence", value: confidence },
+      { name: "Uncertainty", value: 100 - confidence },
+    ];
+  }, [data.confidence]);
 
   const visualizationData = useMemo(() => {
-    if (!data.visualization_data) return null
-    
+    if (!data.visualization_data) return null;
+
     return [
-      { parameter: 'Orbital Distance', value: data.visualization_data.orbital_distance || 0, unit: 'million km' },
-      { parameter: 'Planet Size', value: data.visualization_data.planet_size || 0, unit: 'Earth radii' }
-    ]
-  }, [data.visualization_data])
+      {
+        parameter: "Orbital Distance",
+        value: data.visualization_data.orbital_distance || 0,
+        unit: "million km",
+      },
+      {
+        parameter: "Planet Size",
+        value: data.visualization_data.planet_size || 0,
+        unit: "Earth radii",
+      },
+    ];
+  }, [data.visualization_data]);
 
-  const habitableZoneData = useMemo(() => [
-    { zone: 'Too Cold', value: data.habitable_zone_status === 'Too Cold' ? 100 : 0 },
-    { zone: 'Habitable', value: data.habitable_zone_status === 'Habitable Zone' ? 100 : 0 },
-    { zone: 'Too Hot', value: data.habitable_zone_status === 'Too Hot' ? 100 : 0 }
-  ], [data.habitable_zone_status])
+  const habitableZoneData = useMemo(
+    () => [
+      {
+        zone: "Too Cold",
+        value: data.habitable_zone_status === "Too Cold" ? 100 : 0,
+      },
+      {
+        zone: "Habitable",
+        value: data.habitable_zone_status === "Habitable Zone" ? 100 : 0,
+      },
+      {
+        zone: "Too Hot",
+        value: data.habitable_zone_status === "Too Hot" ? 100 : 0,
+      },
+    ],
+    [data.habitable_zone_status]
+  );
 
-  const COLORS = ['#10b981', '#94a3b8']
-  const ZONE_COLORS = ['#3b82f6', '#10b981', '#ef4444']
+  const COLORS = ["#10b981", "#94a3b8"];
+  const ZONE_COLORS = ["#3b82f6", "#10b981", "#ef4444"];
 
   return (
     <div className="results-container">
@@ -61,7 +117,9 @@ const ExoplanetResults = ({ data }) => {
           <h3>🌟 Similar Known Exoplanet</h3>
           <div className="comparison-content">
             <h4>{data.comparison_data.name}</h4>
-            <p className="comparison-description">{data.comparison_data.description}</p>
+            <p className="comparison-description">
+              {data.comparison_data.description}
+            </p>
             <p className="comparison-text">{data.comparison_data.text}</p>
           </div>
         </div>
@@ -83,7 +141,10 @@ const ExoplanetResults = ({ data }) => {
                 dataKey="value"
               >
                 {confidenceData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Pie>
               <Tooltip />
@@ -95,12 +156,18 @@ const ExoplanetResults = ({ data }) => {
           <h3>Habitable Zone Status</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={habitableZoneData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="rgba(255,255,255,0.1)"
+              />
               <XAxis dataKey="zone" stroke="#cbd5e0" />
               <YAxis stroke="#cbd5e0" />
-              <Tooltip 
-                contentStyle={{ background: '#1a1f3a', border: '1px solid rgba(255,255,255,0.2)' }}
-                labelStyle={{ color: '#e2e8f0' }}
+              <Tooltip
+                contentStyle={{
+                  background: "#1a1f3a",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                }}
+                labelStyle={{ color: "#e2e8f0" }}
               />
               <Bar dataKey="value" radius={[8, 8, 0, 0]}>
                 {habitableZoneData.map((entry, index) => (
@@ -110,7 +177,10 @@ const ExoplanetResults = ({ data }) => {
             </BarChart>
           </ResponsiveContainer>
           <div className="zone-status">
-            Current Status: <strong style={{ color: status.color }}>{data.habitable_zone_status}</strong>
+            Current Status:{" "}
+            <strong style={{ color: status.color }}>
+              {data.habitable_zone_status}
+            </strong>
           </div>
         </div>
 
@@ -120,21 +190,35 @@ const ExoplanetResults = ({ data }) => {
             <div className="planet-visualization">
               <div className="star-planet-system">
                 {/* Star */}
-                <div className="star" style={{ background: data.visualization_data.star_color || '#FFD700' }}>
+                <div
+                  className="star"
+                  style={{
+                    background: data.visualization_data.star_color || "#FFD700",
+                  }}
+                >
                   <div className="star-glow"></div>
                   <span className="star-label">⭐ Host Star</span>
                 </div>
-                
+
                 {/* Orbital path */}
                 <div className="orbital-path"></div>
-                
+
                 {/* Planet */}
-                <div 
-                  className="exoplanet" 
-                  style={{ 
-                    width: `${Math.max(30, Math.min(120, data.visualization_data.planet_size * 60))}px`,
-                    height: `${Math.max(30, Math.min(120, data.visualization_data.planet_size * 60))}px`,
-                    left: `${Math.min(70, 30 + (data.visualization_data.orbital_distance / 10))}%`
+                <div
+                  className="exoplanet"
+                  style={{
+                    width: `${Math.max(
+                      30,
+                      Math.min(120, data.visualization_data.planet_size * 60)
+                    )}px`,
+                    height: `${Math.max(
+                      30,
+                      Math.min(120, data.visualization_data.planet_size * 60)
+                    )}px`,
+                    left: `${Math.min(
+                      70,
+                      30 + data.visualization_data.orbital_distance / 10
+                    )}%`,
                   }}
                 >
                   <div className="planet-surface"></div>
@@ -142,16 +226,22 @@ const ExoplanetResults = ({ data }) => {
                   <span className="planet-label">🪐 Exoplanet</span>
                 </div>
               </div>
-              
+
               {/* Info display */}
               <div className="planet-info">
                 <div className="info-item">
                   <span className="info-label">Orbital Distance:</span>
-                  <span className="info-value">{data.visualization_data.orbital_distance?.toFixed(2)} million km</span>
+                  <span className="info-value">
+                    {data.visualization_data.orbital_distance?.toFixed(2)}{" "}
+                    million km
+                  </span>
                 </div>
                 <div className="info-item">
                   <span className="info-label">Planet Size:</span>
-                  <span className="info-value">{data.visualization_data.planet_size?.toFixed(2)} Earth radii</span>
+                  <span className="info-value">
+                    {data.visualization_data.planet_size?.toFixed(2)} Earth
+                    radii
+                  </span>
                 </div>
               </div>
             </div>
@@ -163,16 +253,16 @@ const ExoplanetResults = ({ data }) => {
         <div className="visualization-card">
           <h3>System Visualization</h3>
           <div className="plot-container">
-            <img 
-              src={`data:image/png;base64,${data.plot_url}`} 
-              alt="Exoplanet System Visualization" 
+            <img
+              src={`data:image/png;base64,${data.plot_url}`}
+              alt="Exoplanet System Visualization"
               className="plot-image"
             />
           </div>
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ExoplanetResults
+export default ExoplanetResults;

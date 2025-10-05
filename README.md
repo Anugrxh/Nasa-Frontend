@@ -21,6 +21,7 @@ A modern web application for analyzing exoplanet candidates using Kepler mission
 The application connects to: `http://127.0.0.1:5000/predict`
 
 ### Request Format
+
 ```json
 {
   "koi_period": 365.0,
@@ -40,6 +41,7 @@ The application connects to: `http://127.0.0.1:5000/predict`
 ```
 
 ### Response Format
+
 ```json
 {
   "prediction": "Confirmed Exoplanet",
