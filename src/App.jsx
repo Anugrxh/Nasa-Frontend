@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import SpaceBackground from "./components/SpaceBackground";
 import MetricsDisplay from "./components/MetricsDisplay";
 import ExoplanetForm from "./components/ExoplanetForm";
 import ExoplanetResults from "./components/ExoplanetResults";
@@ -37,24 +38,26 @@ function App() {
 
   return (
     <div className="app">
-      <MetricsDisplay />
+      <SpaceBackground />
 
-      <header className="app-header">
-        <h1>🌌 Exoplanet Analysis System</h1>
-        <p>Analyze planetary candidates using Kepler mission data</p>
-      </header>
+      <div className="app-content">
+        <header className="app-header">
+          <h1> Exoplanet Analysis System</h1>
+          <p>Analyze planetary candidates using Kepler mission data</p>
+        </header>
+        <MetricsDisplay />
+        <main className="app-main">
+          <ExoplanetForm onSubmit={handleAnalysis} loading={loading} />
 
-      <main className="app-main">
-        <ExoplanetForm onSubmit={handleAnalysis} loading={loading} />
+          {error && (
+            <div className="error-message">
+              <p>❌ Error: {error}</p>
+            </div>
+          )}
 
-        {error && (
-          <div className="error-message">
-            <p>❌ Error: {error}</p>
-          </div>
-        )}
-
-        {analysisData && <ExoplanetResults data={analysisData} />}
-      </main>
+          {analysisData && <ExoplanetResults data={analysisData} />}
+        </main>
+      </div>
     </div>
   );
 }

@@ -114,22 +114,47 @@ const ExoplanetResults = ({ data }) => {
           </div>
         </div>
 
-        {visualizationData && (
+        {data.visualization_data && (
           <div className="chart-card full-width">
             <h3>Physical Parameters</h3>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={visualizationData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                <XAxis type="number" stroke="#cbd5e0" />
-                <YAxis dataKey="parameter" type="category" stroke="#cbd5e0" width={150} />
-                <Tooltip 
-                  contentStyle={{ background: '#1a1f3a', border: '1px solid rgba(255,255,255,0.2)' }}
-                  labelStyle={{ color: '#e2e8f0' }}
-                  formatter={(value, name, props) => [`${value.toFixed(2)} ${props.payload.unit}`, 'Value']}
-                />
-                <Bar dataKey="value" fill="#667eea" radius={[0, 8, 8, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="planet-visualization">
+              <div className="star-planet-system">
+                {/* Star */}
+                <div className="star" style={{ background: data.visualization_data.star_color || '#FFD700' }}>
+                  <div className="star-glow"></div>
+                  <span className="star-label">⭐ Host Star</span>
+                </div>
+                
+                {/* Orbital path */}
+                <div className="orbital-path"></div>
+                
+                {/* Planet */}
+                <div 
+                  className="exoplanet" 
+                  style={{ 
+                    width: `${Math.max(30, Math.min(120, data.visualization_data.planet_size * 60))}px`,
+                    height: `${Math.max(30, Math.min(120, data.visualization_data.planet_size * 60))}px`,
+                    left: `${Math.min(70, 30 + (data.visualization_data.orbital_distance / 10))}%`
+                  }}
+                >
+                  <div className="planet-surface"></div>
+                  <div className="planet-atmosphere"></div>
+                  <span className="planet-label">🪐 Exoplanet</span>
+                </div>
+              </div>
+              
+              {/* Info display */}
+              <div className="planet-info">
+                <div className="info-item">
+                  <span className="info-label">Orbital Distance:</span>
+                  <span className="info-value">{data.visualization_data.orbital_distance?.toFixed(2)} million km</span>
+                </div>
+                <div className="info-item">
+                  <span className="info-label">Planet Size:</span>
+                  <span className="info-value">{data.visualization_data.planet_size?.toFixed(2)} Earth radii</span>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>

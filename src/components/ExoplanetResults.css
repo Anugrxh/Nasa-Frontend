@@ -1,8 +1,105 @@
 .results-container {
-  animation: fadeIn 0.5s ease-in;
+  animation: slideInUp 0.8s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.results-header {
+  margin-bottom: 2rem;
+  animation: fadeIn 0.6s ease-out;
 }
 
 @keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.results-header h2 {
+  color: #e2e8f0;
+  font-size: 2rem;
+  text-align: center;
+  animation: textGlow 2s ease-in-out infinite;
+}
+
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+  }
+}
+
+.status-card {
+  background: #0a0a0a;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 2px solid;
+  text-align: center;
+  animation: scaleIn 0.6s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.status-emoji {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: bounceIn 0.8s ease-out, float 3s ease-in-out infinite;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.status-card h3 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+  animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+
+@keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -13,86 +110,101 @@
   }
 }
 
-.results-header {
-  margin-bottom: 2rem;
-}
-
-.results-header h2 {
-  color: #e2e8f0;
-  font-size: 2rem;
-  text-align: center;
-}
-
-.status-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  border: 2px solid;
-  text-align: center;
-}
-
-.status-emoji {
-  font-size: 4rem;
-  margin-bottom: 1rem;
-}
-
-.status-card h3 {
-  font-size: 1.75rem;
-  margin-bottom: 0.5rem;
-}
-
 .status-card p {
   color: #cbd5e0;
   margin-bottom: 1rem;
+  animation: fadeInUp 0.8s ease-out 0.4s backwards;
 }
 
 .confidence-badge {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.1);
+  background: #000000;
+  border: 1px solid #2a2a2a;
   padding: 0.5rem 1.5rem;
   border-radius: 20px;
   color: #e2e8f0;
   font-size: 1rem;
+  animation: fadeInUp 0.8s ease-out 0.6s backwards, pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
 }
 
 .confidence-badge strong {
   color: #10b981;
   margin-left: 0.5rem;
+  animation: numberGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes numberGlow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(16, 185, 129, 0.8);
+  }
 }
 
 .comparison-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  background: #0a0a0a;
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #1a1a1a;
+  animation: slideInRight 0.8s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.comparison-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
 }
 
 .comparison-card h3 {
   color: #e2e8f0;
   margin-bottom: 1rem;
   font-size: 1.5rem;
+  animation: fadeIn 0.8s ease-out;
 }
 
 .comparison-content h4 {
   color: #667eea;
   font-size: 1.25rem;
   margin-bottom: 0.75rem;
+  animation: fadeInUp 0.6s ease-out 0.2s backwards;
 }
 
 .comparison-description {
   color: #cbd5e0;
   margin-bottom: 0.75rem;
   line-height: 1.6;
+  animation: fadeInUp 0.6s ease-out 0.4s backwards;
 }
 
 .comparison-text {
   color: #a0aec0;
   font-style: italic;
   line-height: 1.6;
+  animation: fadeInUp 0.6s ease-out 0.6s backwards;
 }
 
 .charts-grid {
@@ -103,11 +215,32 @@
 }
 
 .chart-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  background: #0a0a0a;
   border-radius: 12px;
   padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #1a1a1a;
+  animation: fadeInScale 0.6s ease-out backwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chart-card:nth-child(1) { animation-delay: 0.2s; }
+.chart-card:nth-child(2) { animation-delay: 0.4s; }
+.chart-card:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.chart-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
 }
 
 .chart-card.full-width {
@@ -118,6 +251,7 @@
   color: #e2e8f0;
   margin-bottom: 1rem;
   font-size: 1.25rem;
+  animation: fadeIn 0.6s ease-out;
 }
 
 .zone-status {
@@ -125,18 +259,28 @@
   margin-top: 1rem;
   color: #cbd5e0;
   font-size: 1rem;
+  animation: fadeInUp 0.8s ease-out 0.5s backwards;
 }
 
 .zone-status strong {
   font-size: 1.125rem;
+  animation: textPulse 2s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .visualization-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  background: #0a0a0a;
   border-radius: 12px;
   padding: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #1a1a1a;
 }
 
 .visualization-card h3 {
@@ -150,7 +294,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.3);
+  background: #000000;
+  border: 1px solid #1a1a1a;
   border-radius: 8px;
   padding: 1rem;
 }
@@ -172,5 +317,247 @@
   
   .status-card h3 {
     font-size: 1.5rem;
+  }
+}
+
+
+/* Planet Visualization */
+.planet-visualization {
+  padding: 2rem 1rem;
+}
+
+.star-planet-system {
+  position: relative;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.star {
+  position: absolute;
+  left: 10%;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 80px rgba(255, 215, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: starPulse 3s ease-in-out infinite;
+  z-index: 2;
+}
+
+.star-glow {
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent);
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+.star-label {
+  position: absolute;
+  bottom: -30px;
+  font-size: 0.875rem;
+  color: #cbd5e0;
+  white-space: nowrap;
+  z-index: 3;
+}
+
+@keyframes starPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 80px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 50px rgba(255, 215, 0, 1), 0 0 100px rgba(255, 215, 0, 0.6);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+.orbital-path {
+  position: absolute;
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    rgba(102, 126, 234, 0.3) 0%, 
+    rgba(102, 126, 234, 0.6) 50%, 
+    rgba(102, 126, 234, 0.3) 100%
+  );
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.orbital-path::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  top: 50%;
+  animation: orbitFlow 3s linear infinite;
+}
+
+@keyframes orbitFlow {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.exoplanet {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 
+    0 0 20px rgba(102, 126, 234, 0.6),
+    inset -10px -10px 30px rgba(0, 0, 0, 0.3),
+    inset 10px 10px 30px rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: planetFloat 4s ease-in-out infinite;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.planet-surface {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.2), transparent 50%);
+}
+
+.planet-atmosphere {
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(102, 126, 234, 0.2), transparent 70%);
+  animation: atmosphereGlow 3s ease-in-out infinite;
+}
+
+@keyframes atmosphereGlow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.planet-label {
+  position: absolute;
+  bottom: -35px;
+  font-size: 0.875rem;
+  color: #cbd5e0;
+  white-space: nowrap;
+  z-index: 3;
+}
+
+@keyframes planetFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.planet-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #000000;
+  border: 1px solid #1a1a1a;
+  border-radius: 8px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-label {
+  color: #a0aec0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.info-value {
+  color: #667eea;
+  font-size: 1.25rem;
+  font-weight: 700;
+  animation: countUp 1s ease-out, valueGlow 2s ease-in-out infinite;
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes valueGlow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+  }
+}
+
+@media (max-width: 768px) {
+  .star-planet-system {
+    height: 250px;
+  }
+  
+  .star {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .exoplanet {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  
+  .star-label,
+  .planet-label {
+    font-size: 0.75rem;
+  }
+  
+  .planet-info {
+    grid-template-columns: 1fr;
   }
 }

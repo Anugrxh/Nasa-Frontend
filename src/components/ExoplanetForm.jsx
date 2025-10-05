@@ -20,31 +20,37 @@ const ExoplanetForm = ({ onSubmit, loading }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target
+    // Keep the value as string while typing to allow decimal input
     setFormData(prev => ({
       ...prev,
-      [name]: parseFloat(value) || 0
+      [name]: value === '' ? '' : value
     }))
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onSubmit(formData)
+    // Convert all values to numbers before submitting
+    const numericData = Object.keys(formData).reduce((acc, key) => {
+      acc[key] = parseFloat(formData[key]) || 0
+      return acc
+    }, {})
+    onSubmit(numericData)
   }
 
   const fields = [
-    { name: 'koi_period', label: 'Orbital Period (days)', min: 0, step: 0.1 },
-    { name: 'koi_prad', label: 'Planet Radius (Earth radii)', min: 0, step: 0.1 },
-    { name: 'koi_steff', label: 'Stellar Effective Temp (K)', min: 0, step: 1 },
-    { name: 'koi_duration', label: 'Transit Duration (hours)', min: 0, step: 0.1 },
-    { name: 'koi_depth', label: 'Transit Depth (ppm)', min: 0, step: 1 },
-    { name: 'koi_insol', label: 'Insolation Flux (Earth flux)', min: 0, step: 0.1 },
-    { name: 'koi_srad', label: 'Stellar Radius (Solar radii)', min: 0, step: 0.1 },
-    { name: 'koi_score', label: 'Disposition Score', min: 0, max: 1, step: 0.01 },
+    { name: 'koi_period', label: 'Orbital Period (days)', min: 0, step: 'any' },
+    { name: 'koi_prad', label: 'Planet Radius (Earth radii)', min: 0, step: 'any' },
+    { name: 'koi_steff', label: 'Stellar Effective Temp (K)', min: 0, step: 'any' },
+    { name: 'koi_duration', label: 'Transit Duration (hours)', min: 0, step: 'any' },
+    { name: 'koi_depth', label: 'Transit Depth (ppm)', min: 0, step: 'any' },
+    { name: 'koi_insol', label: 'Insolation Flux (Earth flux)', min: 0, step: 'any' },
+    { name: 'koi_srad', label: 'Stellar Radius (Solar radii)', min: 0, step: 'any' },
+    { name: 'koi_score', label: 'Disposition Score', min: 0, max: 1, step: 'any' },
     { name: 'koi_fpflag_nt', label: 'Not Transit-Like Flag', min: 0, max: 1, step: 1 },
     { name: 'koi_fpflag_ss', label: 'Stellar Eclipse Flag', min: 0, max: 1, step: 1 },
     { name: 'koi_fpflag_co', label: 'Centroid Offset Flag', min: 0, max: 1, step: 1 },
-    { name: 'koi_teq', label: 'Equilibrium Temp (K)', min: 0, step: 1 },
-    { name: 'koi_model_snr', label: 'Transit Signal-to-Noise', min: 0, step: 0.1 }
+    { name: 'koi_teq', label: 'Equilibrium Temp (K)', min: 0, step: 'any' },
+    { name: 'koi_model_snr', label: 'Transit Signal-to-Noise', min: 0, step: 'any' }
   ]
 
   return (

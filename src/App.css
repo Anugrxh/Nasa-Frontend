@@ -1,28 +1,78 @@
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+  background: #000000;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.app-content {
+  position: relative;
+  z-index: 1;
 }
 
 .app-header {
   text-align: center;
   padding: 2rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0a0a0a;
+  border-bottom: 1px solid #1a1a1a;
+  animation: slideDown 0.8s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .app-header h1 {
   font-size: 2.5rem;
   margin: 0;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: gradientShift 3s ease infinite, textGlow 2s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes textGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(102, 126, 234, 0.8));
+  }
 }
 
 .app-header p {
   color: #a0aec0;
   margin-top: 0.5rem;
+  animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .app-main {
@@ -32,8 +82,8 @@
 }
 
 .error-message {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
   border-radius: 8px;
   padding: 1rem;
   margin: 1rem 0;
