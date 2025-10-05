@@ -102,6 +102,4 @@ npm run build
 - **Equilibrium Temperature**: Estimated planet temperature (Kelvin)
 - **Transit Signal-to-Noise**: Quality of the detection signal
 
-## License
 
-MIT
