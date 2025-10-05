@@ -1,13 +1,6 @@
 .app {
   min-height: 100vh;
   background: #000000;
-  position: relative;
-  overflow-x: hidden;
-}
-
-.app-content {
-  position: relative;
-  z-index: 1;
 }
 
 .app-header {
