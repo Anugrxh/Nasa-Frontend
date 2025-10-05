@@ -103,3 +103,9 @@ npm run build
 - **Transit Signal-to-Noise**: Quality of the detection signal
 
 
+## Live Link
+
+
+
+Open Exoplanet-hunting](https://exoplanet-hunting.netlify.app/) in your browser.
+
