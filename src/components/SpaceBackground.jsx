@@ -3,9 +3,9 @@ import './SpaceBackground.css'
 const SpaceBackground = () => {
   return (
     <div className="space-background">
-      {/* Stars */}
+      {/* Stars - Static on mobile */}
       <div className="stars-layer">
-        {[...Array(50)].map((_, i) => (
+        {[...Array(30)].map((_, i) => (
           <div
             key={`star-${i}`}
             className="star"
@@ -18,50 +18,35 @@ const SpaceBackground = () => {
         ))}
       </div>
 
-      {/* Shooting Stars/Meteors */}
-      <div className="meteors-layer">
-        {[...Array(5)].map((_, i) => (
+      {/* Shooting Stars - Desktop only */}
+      <div className="meteors-layer desktop-only">
+        {[...Array(3)].map((_, i) => (
           <div
             key={`meteor-${i}`}
             className="meteor"
             style={{
-              top: `${Math.random() * 60}%`,
-              animationDelay: `${i * 4}s`
+              top: `${20 + i * 20}%`,
+              animationDelay: `${i * 5}s`
             }}
           />
         ))}
       </div>
 
-      {/* Rockets */}
-      <div className="rockets-layer">
+      {/* Rockets - Desktop only */}
+      <div className="rockets-layer desktop-only">
         <div className="rocket rocket-1">🚀</div>
         <div className="rocket rocket-2">🛸</div>
-        <div className="rocket rocket-3">🚀</div>
       </div>
 
-      {/* Floating Planets */}
+      {/* Floating Planets - Minimal animation */}
       <div className="planets-layer">
         <div className="planet planet-1">🪐</div>
         <div className="planet planet-2">🌍</div>
-        <div className="planet planet-3">🌙</div>
       </div>
 
-      {/* Satellites */}
-      <div className="satellites-layer">
-        <div className="satellite satellite-1">🛰️</div>
-        <div className="satellite satellite-2">🛰️</div>
-      </div>
-
-      {/* Comets */}
-      <div className="comets-layer">
-        <div className="comet comet-1">☄️</div>
-        <div className="comet comet-2">☄️</div>
-      </div>
-
-      {/* Nebula clouds */}
+      {/* Nebula clouds - Static */}
       <div className="nebula nebula-1"></div>
       <div className="nebula nebula-2"></div>
-      <div className="nebula nebula-3"></div>
     </div>
   )
 }
