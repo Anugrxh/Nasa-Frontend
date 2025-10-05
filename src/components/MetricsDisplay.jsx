@@ -9,7 +9,7 @@ const MetricsDisplay = () => {
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5000/metrics')
+        const response = await fetch('https://hunting-exoplanet-backend.onrender.com/metrics')
         if (!response.ok) {
           throw new Error('Failed to fetch metrics')
         }
