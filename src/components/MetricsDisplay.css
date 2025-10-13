@@ -1,6 +1,6 @@
 .metrics-container {
-  background: #0a0a0a;
-  border-bottom: 1px solid #1a1a1a;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   padding: 1rem 2rem;
   animation: slideDown 0.6s ease-out;
 }
@@ -10,6 +10,7 @@
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -29,34 +30,51 @@
 
 .metrics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
   max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .metric-card {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: #000000;
-  border: 1px solid #1a1a1a;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
   padding: 1rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: all 0.3s ease;
   animation: fadeInScale 0.5s ease-out backwards;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.metric-card:nth-child(1) { animation-delay: 0.1s; }
-.metric-card:nth-child(2) { animation-delay: 0.2s; }
-.metric-card:nth-child(3) { animation-delay: 0.3s; }
-.metric-card:nth-child(4) { animation-delay: 0.4s; }
+.metric-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.metric-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.metric-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.metric-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
 
 @keyframes fadeInScale {
   from {
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -65,8 +83,11 @@
 
 .metric-card:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-  border-color: #667eea;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .metric-icon {
@@ -76,9 +97,12 @@
 }
 
 @keyframes bounce {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-5px);
   }
@@ -92,6 +116,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -123,6 +148,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -133,20 +159,20 @@
   .metrics-container {
     padding: 1rem;
   }
-  
+
   .metrics-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
-  
+
   .metric-card {
     padding: 0.75rem;
   }
-  
+
   .metric-icon {
     font-size: 1.5rem;
   }
-  
+
   .metric-value {
     font-size: 1.25rem;
   }

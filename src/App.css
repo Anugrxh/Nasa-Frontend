@@ -1,77 +1,11 @@
 .app {
   min-height: 100vh;
-  background: #000000;
-}
-
-.app-header {
-  text-align: center;
-  padding: 2rem 1rem;
-  background: #0a0a0a;
-  border-bottom: 1px solid #1a1a1a;
-  animation: slideDown 0.8s ease-out;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.app-header h1 {
-  font-size: 2.5rem;
-  margin: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradientShift 3s ease infinite, textGlow 2s ease-in-out infinite;
-}
-
-@keyframes gradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes textGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.5));
-  }
-  50% {
-    filter: drop-shadow(0 0 15px rgba(102, 126, 234, 0.8));
-  }
-}
-
-.app-header p {
-  color: #a0aec0;
-  margin-top: 0.5rem;
-  animation: fadeInUp 1s ease-out 0.3s both;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.app-main {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+  background: 
+    radial-gradient(ellipse at top, rgba(20, 20, 20, 0.8) 0%, rgba(0, 0, 0, 0.9) 50%),
+    linear-gradient(135deg, #000000 0%, #0a0a0a 25%, #111111 50%, #0a0a0a 75%, #000000 100%);
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }
 
 .error-message {

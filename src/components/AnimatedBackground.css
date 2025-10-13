@@ -1,0 +1,131 @@
+.animated-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -2;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(0.5px);
+}
+
+.floating-planet {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(1px);
+  opacity: 0.6;
+}
+
+.planet-1 {
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle at 30% 30%, #ff6b6b, #ee5a52);
+  top: 20%;
+  right: 10%;
+  box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+}
+
+.planet-2 {
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle at 30% 30%, #4a90e2, #357abd);
+  top: 60%;
+  left: 5%;
+  box-shadow: 0 0 15px rgba(74, 144, 226, 0.3);
+}
+
+.planet-3 {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 30% 30%, #7b68ee, #6a5acd);
+  top: 80%;
+  right: 20%;
+  box-shadow: 0 0 12px rgba(123, 104, 238, 0.3);
+}
+
+/* Nebula effect */
+.animated-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(123, 104, 238, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 40% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
+  animation: nebula 30s ease-in-out infinite;
+}
+
+@keyframes nebula {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+/* Shooting stars */
+.animated-background::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.5) 50%, transparent 70%);
+  background-size: 200px 2px;
+  background-repeat: no-repeat;
+  background-position: -200px 20%;
+  animation: shootingStar 8s linear infinite;
+}
+
+@keyframes shootingStar {
+  0% {
+    background-position: -200px 20%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    background-position: calc(100% + 200px) 20%;
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .planet-1 {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .planet-2 {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .planet-3 {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .star {
+    filter: blur(0.3px);
+  }
+}

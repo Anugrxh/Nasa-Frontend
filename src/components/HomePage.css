@@ -1,0 +1,413 @@
+.home-page {
+  min-height: 100vh;
+  background: transparent;
+  color: white;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.hero-section {
+  padding: 4rem 2rem;
+  text-align: center;
+  background: transparent;
+  position: relative;
+}
+
+.hero-content h1,
+.hero-title {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #4a90e2, #7b68ee, #ff6b6b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.hero-title span {
+  background: linear-gradient(45deg, #4a90e2, #7b68ee, #ff6b6b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: #b0b0b0;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.home-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.intro-section {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.intro-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #4a90e2;
+}
+
+.intro-section p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #e0e0e0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.fact-card {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.fact-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.fact-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.fact-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #4a90e2;
+}
+
+.fact-card p {
+  line-height: 1.6;
+  color: #d0d0d0;
+}
+
+.kepler-section {
+  margin-bottom: 4rem;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(25px);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.kepler-section h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #7b68ee;
+}
+
+.kepler-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.kepler-text p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  color: #e0e0e0;
+}
+
+.cta-section {
+  text-align: center;
+  padding: 3rem 2rem 4rem;
+}
+
+.cta-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #ff6b6b;
+}
+
+.cta-section p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #d0d0d0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  text-decoration: none;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .facts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .home-content {
+    padding: 0 1rem;
+  }
+  
+  .kepler-section {
+    padding: 2rem;
+  }
+}/* En
+hanced animations for better performance */
+.hero-content h1,
+.hero-title {
+  will-change: transform, filter, opacity;
+}
+
+.fact-card {
+  will-change: transform;
+}
+
+.cta-button {
+  will-change: transform;
+}
+
+/* Removed particle background to improve splash visibility */
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced hover effects */
+.fact-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(74, 144, 226, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 15px;
+}
+
+.fact-card:hover::before {
+  opacity: 1;
+}
+
+/* Glowing text effect */
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(74, 144, 226, 0.8), 0 0 30px rgba(74, 144, 226, 0.6);
+  }
+}
+
+.hero-content h1,
+.hero-title {
+  animation: textGlow 3s ease-in-out infinite;
+}
+
+/* Floating animation for icons */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.fact-icon {
+  animation: float 3s ease-in-out infinite;
+}
+
+.fact-card:nth-child(2) .fact-icon {
+  animation-delay: 0.5s;
+}
+
+.fact-card:nth-child(3) .fact-icon {
+  animation-delay: 1s;
+}
+
+.fact-card:nth-child(4) .fact-icon {
+  animation-delay: 1.5s;
+}
+
+/* Improved mobile animations */
+@media (max-width: 768px) {
+  .home-page::before {
+    background-size: 150px 75px;
+  }
+  
+  .hero-content h1 {
+    animation-duration: 4s;
+  }
+  
+  .fact-icon {
+    animation-duration: 4s;
+  }
+}/* 
+Additional glassmorphism effects */
+.fact-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+.fact-card:hover::before {
+  opacity: 1;
+}
+
+/* Glass reflection effect */
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.cta-button:hover::before {
+  left: 100%;
+}
+
+/* Enhanced glass borders */
+.intro-section::before,
+.kepler-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent, rgba(255, 255, 255, 0.1));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Removed frosted glass texture to improve splash visibility *//* Enh
+anced BlurText styling */
+.hero-title {
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  display: flex !important;
+}
+
+.hero-title span {
+  display: inline-block;
+  font-weight: bold;
+  text-shadow: 0 0 20px rgba(74, 144, 226, 0.5);
+  transition: all 0.3s ease;
+}
+
+.hero-title span:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 30px rgba(74, 144, 226, 0.8);
+}
+
+/* Ensure proper spacing for blur text words */
+.hero-title span + span {
+  margin-left: 0.3em;
+}
+
+/* Mobile responsive for BlurText */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-title span {
+    text-shadow: 0 0 15px rgba(74, 144, 226, 0.5);
+  }
+}/* 
+Ensure SplashCursor visibility */
+#fluid {
+  mix-blend-mode: screen;
+  opacity: 0.9;
+}

@@ -44,13 +44,17 @@
 }
 
 .status-card {
-  background: #0a0a0a;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(25px);
+  border-radius: 20px;
   padding: 2rem;
   margin-bottom: 2rem;
-  border: 2px solid;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
   animation: scaleIn 0.6s ease-out;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 @keyframes scaleIn {
@@ -118,13 +122,18 @@
 
 .confidence-badge {
   display: inline-block;
-  background: #000000;
-  border: 1px solid #2a2a2a;
-  padding: 0.5rem 1.5rem;
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 2rem;
+  border-radius: 25px;
   color: #e2e8f0;
-  font-size: 1rem;
+  font-size: 1.1rem;
   animation: fadeInUp 0.8s ease-out 0.6s backwards, pulse 2s ease-in-out infinite;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  margin-top: 1rem;
 }
 
 @keyframes pulse {
@@ -154,13 +163,17 @@
 }
 
 .comparison-card {
-  background: #0a0a0a;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(25px);
+  border-radius: 20px;
   padding: 2rem;
   margin-bottom: 2rem;
-  border: 1px solid #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   animation: slideInRight 0.8s ease-out;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 @keyframes slideInRight {
@@ -209,18 +222,32 @@
 
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 2rem;
   margin-bottom: 2rem;
+  width: 100%;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
 }
 
 .chart-card {
-  background: #0a0a0a;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(25px);
+  border-radius: 20px;
   padding: 1.5rem;
-  border: 1px solid #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   animation: fadeInScale 0.6s ease-out backwards;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .chart-card:nth-child(1) { animation-delay: 0.2s; }
@@ -249,22 +276,33 @@
 
 .chart-card h3 {
   color: #e2e8f0;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-size: 1.25rem;
+  text-align: center;
   animation: fadeIn 0.6s ease-out;
 }
 
 .zone-status {
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: #cbd5e0;
-  font-size: 1rem;
+  font-size: 1.1rem;
   animation: fadeInUp 0.8s ease-out 0.5s backwards;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .zone-status strong {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
+  font-weight: 700;
   animation: textPulse 2s ease-in-out infinite;
+  text-shadow: 0 0 10px currentColor;
 }
 
 @keyframes textPulse {
@@ -309,6 +347,8 @@
 @media (max-width: 768px) {
   .charts-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 100%;
   }
   
   .status-emoji {
@@ -317,6 +357,15 @@
   
   .status-card h3 {
     font-size: 1.5rem;
+  }
+  
+  .chart-card {
+    padding: 1rem;
+    min-height: 350px;
+  }
+  
+  .results-container {
+    padding: 0 0.5rem;
   }
 }
 
@@ -340,12 +389,12 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 80px rgba(255, 215, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   animation: starPulse 3s ease-in-out infinite;
   z-index: 2;
+  /* Remove hardcoded colors to allow inline styles to work */
 }
 
 .star-glow {
@@ -353,8 +402,8 @@
   width: 120%;
   height: 120%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 215, 0, 0.3), transparent);
   animation: glowPulse 2s ease-in-out infinite;
+  /* Remove hardcoded background to allow inline styles to work */
 }
 
 .star-label {
@@ -369,11 +418,9 @@
 @keyframes starPulse {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), 0 0 80px rgba(255, 215, 0, 0.4);
   }
   50% {
     transform: scale(1.05);
-    box-shadow: 0 0 50px rgba(255, 215, 0, 1), 0 0 100px rgba(255, 215, 0, 0.6);
   }
 }
 
@@ -560,4 +607,416 @@
   .planet-info {
     grid-template-columns: 1fr;
   }
+}
+/* Enhanced habitable zone status styling */
+.zone-status.habitable {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.zone-status.too-hot {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.zone-status.too-cold {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Enhanced confidence badge styling */
+.confidence-badge.high-confidence {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.confidence-badge.medium-confidence {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.confidence-badge.low-confidence {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Center alignment for chart containers */
+.chart-card .recharts-wrapper {
+  margin: 0 auto;
+}
+
+/* Enhanced status card centering */
+.status-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-card .confidence-badge {
+  align-self: center;
+}/* 
+Medium screen adjustments */
+@media (max-width: 900px) and (min-width: 769px) {
+  .charts-grid {
+    gap: 1.5rem;
+    max-width: 800px;
+  }
+  
+  .chart-card {
+    padding: 1.25rem;
+    min-height: 380px;
+  }
+}
+
+/* Ensure equal height for both chart cards */
+.charts-grid .chart-card:nth-child(1),
+.charts-grid .chart-card:nth-child(2) {
+  min-height: 400px;
+  align-items: stretch;
+}
+
+/* Center the chart content within each card */
+.chart-card .recharts-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Zone status positioning within its card */
+.zone-status {
+  margin-top: auto;
+}/* 
+SHAP Explanation Card Styling */
+.explanation-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(25px);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideInRight 0.8s ease-out;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.explanation-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.explanation-card h3 {
+  color: #e2e8f0;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.explanation-subtitle {
+  color: #cbd5e0;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.explanation-subtitle strong {
+  color: #4a90e2;
+  font-weight: 600;
+}
+
+.features-explanation h4 {
+  color: #7b68ee;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+}
+
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.feature-item {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.feature-item.positive {
+  border-left: 4px solid #10b981;
+}
+
+.feature-item.negative {
+  border-left: 4px solid #ef4444;
+}
+
+.feature-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.feature-name {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.contribution-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.contribution-badge.positive {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  font-weight: 600;
+}
+
+.contribution-badge.negative {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  font-weight: 600;
+}
+
+.feature-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.feature-value {
+  color: #a0aec0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.feature-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.feature-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s ease;
+}
+
+.feature-bar-fill.positive {
+  background: linear-gradient(90deg, #10b981, #34d399);
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.4);
+}
+
+.feature-bar-fill.negative {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+  box-shadow: 0 0 8px rgba(248, 113, 113, 0.4);
+}
+
+.explanation-summary {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: rgba(123, 104, 238, 0.1);
+  border-radius: 15px;
+  border: 1px solid rgba(123, 104, 238, 0.2);
+}
+
+.summary-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.summary-text h4 {
+  color: #7b68ee;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.summary-text p {
+  color: #cbd5e0;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive design for explanation card */
+@media (max-width: 768px) {
+  .explanation-card {
+    padding: 1.5rem;
+  }
+  
+  .feature-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .explanation-summary {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .summary-icon {
+    align-self: center;
+  }
+}
+
+/* SHAP Chart Styling */
+.shap-chart-container {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.shap-chart-container .recharts-wrapper {
+  margin: 0 auto;
+}
+
+/* Enhanced tooltip styling for SHAP chart */
+.shap-chart-container .recharts-tooltip-wrapper {
+  z-index: 1000;
+}
+
+/* Feature importance indicators */
+.feature-importance-high {
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.feature-importance-medium {
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+}
+
+.feature-importance-low {
+  box-shadow: 0 0 6px rgba(107, 114, 128, 0.3);
+}/* Ch
+art title styling */
+.shap-chart-container .chart-title {
+  color: #e2e8f0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+/* Enhanced bar chart styling */
+.shap-chart-container .recharts-bar-rectangle {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  min-width: 30px !important;
+  opacity: 1 !important;
+  stroke-width: 2px !important;
+}
+
+/* Ensure bars are always visible */
+.shap-chart-container .recharts-bar {
+  opacity: 1 !important;
+}
+
+/* Force minimum bar visibility */
+.shap-chart-container .recharts-rectangle {
+  min-width: 25px !important;
+  opacity: 1 !important;
+  stroke: rgba(255, 255, 255, 0.3) !important;
+  stroke-width: 1px !important;
+}
+
+/* Label styling for bars */
+.shap-chart-container .recharts-label {
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  fill: #e2e8f0 !important;
+}
+
+/* Ensure chart renders properly */
+.shap-chart-container .recharts-wrapper {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.shap-chart-container .recharts-cartesian-axis-tick-value {
+  font-weight: 500;
+}
+
+.shap-chart-container .recharts-cartesian-grid-horizontal line,
+.shap-chart-container .recharts-cartesian-grid-vertical line {
+  stroke-opacity: 0.3;
+}
+
+/* Improved tooltip styling */
+.shap-chart-container .recharts-tooltip-cursor {
+  fill: rgba(148, 163, 184, 0.1);
+}
+
+/* Legend styling if needed */
+.shap-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #cbd5e0;
+  font-size: 0.9rem;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.legend-positive {
+  background: linear-gradient(45deg, #10b981, #34d399);
+}
+
+.legend-negative {
+  background: linear-gradient(45deg, #ef4444, #f87171);
+}/* 
+Dynamic star color override */
+.dynamic-star {
+  background: var(--star-color, #FFD700) !important;
+  box-shadow: 0 0 40px var(--star-color, #FFD700)80, 0 0 80px var(--star-color, #FFD700)40 !important;
+}
+
+/* Ensure star glow also uses dynamic color */
+.dynamic-star .star-glow {
+  background: radial-gradient(circle, var(--star-color, #FFD700)30, transparent) !important;
 }
