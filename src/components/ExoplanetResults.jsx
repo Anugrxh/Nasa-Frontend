@@ -1,26 +1,21 @@
-import { useMemo } from "react";
-import {
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
-  RadarChart,
-  Radar,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  LabelList,
-} from "recharts";
+import { useMemo, useEffect, useState } from "react";
+import { SimplePieChart, SimpleBarChart, SimpleSHAPChart } from './SimpleCharts';
 import "./ExoplanetResults.css";
 
 const ExoplanetResults = ({ data }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Add data validation to prevent rendering issues
+  if (!data) {
+    return (
+      <div className="results-container">
+        <div className="error-message">
+          <p>No data available to display results.</p>
+        </div>
+      </div>
+    );
+  }
+
   const getPredictionStatus = (prediction) => {
     if (prediction === "FALSE POSITIVE" || prediction === "False Positive") {
       return {
@@ -166,13 +161,33 @@ const ExoplanetResults = ({ data }) => {
   const COLORS = ["#10b981", "#94a3b8"];
   const ZONE_COLORS = ["#3b82f6", "#10b981", "#ef4444"];
 
+  // Ensure visibility and handle animation fallbacks
+  useEffect(() => {
+    // Make elements visible immediately, then add animations
+    setIsVisible(true);
+
+    // Fallback to ensure all elements become visible
+    const timer = setTimeout(() => {
+      const animatedElements = document.querySelectorAll('.slide-up, [class*="slide-up-delay"]');
+      animatedElements.forEach(element => {
+        if (element.style.opacity === '0' || window.getComputedStyle(element).opacity === '0') {
+          element.style.opacity = '1';
+          element.style.transform = 'translateY(0)';
+          element.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        }
+      });
+    }, 1500); // Fallback after 1.5 seconds
+
+    return () => clearTimeout(timer);
+  }, [data]);
+
   return (
-    <div className="results-container">
-      <div className="results-header">
+    <div className={`results-container ${isVisible ? 'visible' : ''}`}>
+      <div className={`results-header ${isVisible ? 'slide-up' : 'no-animation'}`}>
         <h2>Analysis Results</h2>
       </div>
 
-      <div className="status-card" style={{ borderColor: status.color }}>
+      <div className={`status-card ${isVisible ? 'slide-up-delay-1' : 'no-animation'}`} style={{ borderColor: status.color }}>
         <div className="status-emoji">{status.emoji}</div>
         <h3 style={{ color: status.color }}>{status.text}</h3>
         <p>{status.description}</p>
@@ -182,7 +197,7 @@ const ExoplanetResults = ({ data }) => {
       </div>
 
       {data.comparison_data && (
-        <div className="comparison-card">
+        <div className="comparison-card slide-up-delay-2">
           <h3>🌟 Similar Known Exoplanet</h3>
           <div className="comparison-content">
             <h4>{data.comparison_data.name}</h4>
@@ -195,7 +210,7 @@ const ExoplanetResults = ({ data }) => {
       )}
 
       {data.explanation_data && data.explanation_data.top_features && data.explanation_data.top_features.length > 0 && (
-        <div className="explanation-card">
+        <div className="explanation-card slide-up-delay-3">
           <h3>🧠 Model Explanation</h3>
           <p className="explanation-subtitle">
             Understanding why the model classified this as: <strong>{data.explanation_data.predicted_class}</strong>
@@ -206,122 +221,10 @@ const ExoplanetResults = ({ data }) => {
 
             {/* SHAP Values Chart */}
             <div className="shap-chart-container">
-              <h5 className="chart-title">Feature Importance Analysis</h5>
-              <ResponsiveContainer width="100%" height={350}>
-                <BarChart
-                  data={data.explanation_data.top_features.map((feature, index) => {
-                    // Ensure minimum bar visibility by scaling values
-                    const scaledValue = Math.max(Math.abs(feature.value), 0.5);
-                    return {
-                      name: feature.feature.replace('Koi ', '').replace('_', ' '),
-                      value: scaledValue,
-                      originalValue: feature.value,
-                      contribution: feature.contribution,
-                      fullName: feature.feature,
-                      displayValue: feature.contribution === 'positive' ? scaledValue : -scaledValue
-                    };
-                  })}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 80 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.2)" />
-                  <XAxis
-                    dataKey="name"
-                    stroke="#e2e8f0"
-                    tick={{ fill: '#e2e8f0', fontSize: 11, angle: -45, textAnchor: 'end' }}
-                    tickLine={{ stroke: '#e2e8f0' }}
-                    axisLine={{ stroke: '#e2e8f0' }}
-                    height={60}
-                  />
-                  <YAxis
-                    stroke="#e2e8f0"
-                    tick={{ fill: '#e2e8f0', fontSize: 12 }}
-                    tickLine={{ stroke: '#e2e8f0' }}
-                    axisLine={{ stroke: '#e2e8f0' }}
-                    domain={[0, 'dataMax + 0.5']}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      background: "rgba(15, 23, 42, 0.95)",
-                      border: "1px solid rgba(148, 163, 184, 0.3)",
-                      borderRadius: "12px",
-                      color: "#e2e8f0",
-                      boxShadow: "0 10px 25px rgba(0, 0, 0, 0.5)"
-                    }}
-                    formatter={(value, name, props) => [
-                      `Value: ${props.payload.originalValue}`,
-                      `${props.payload.contribution === 'positive' ? '✅ Supports' : '❌ Against'} Classification`
-                    ]}
-                    labelFormatter={(label, payload) => payload?.[0]?.payload?.fullName || label}
-                    labelStyle={{ color: '#4a90e2', fontWeight: 'bold' }}
-                  />
-                  <Bar
-                    dataKey="value"
-                    radius={[6, 6, 0, 0]}
-                    stroke="rgba(255,255,255,0.3)"
-                    strokeWidth={1}
-                    minPointSize={10}
-                    fill="#8884d8"
-                  >
-                    <LabelList
-                      dataKey="originalValue"
-                      position="top"
-                      style={{
-                        fill: '#e2e8f0',
-                        fontSize: '11px',
-                        fontWeight: '600'
-                      }}
-                      formatter={(value) => `${value}`}
-                    />
-                    {data.explanation_data.top_features.map((feature, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={feature.contribution === 'positive'
-                          ? '#10b981'
-                          : '#ef4444'
-                        }
-                      />
-                    ))}
-                  </Bar>
-
-                </BarChart>
-              </ResponsiveContainer>
-
-              <div className="shap-legend">
-                <div className="legend-item">
-                  <div className="legend-color legend-positive"></div>
-                  <span>Supports Classification</span>
-                </div>
-                <div className="legend-item">
-                  <div className="legend-color legend-negative"></div>
-                  <span>Against Classification</span>
-                </div>
-              </div>
+              <SimpleSHAPChart features={data.explanation_data.top_features} />
             </div>
 
-            <div className="features-list">
-              {data.explanation_data.top_features.map((feature, index) => (
-                <div key={index} className={`feature-item ${feature.contribution}`}>
-                  <div className="feature-header">
-                    <span className="feature-name">{feature.feature}</span>
-                    <span className={`contribution-badge ${feature.contribution}`}>
-                      {feature.contribution === 'positive' ? '↗️ Supports' : '↘️ Against'}
-                    </span>
-                  </div>
-                  <div className="feature-details">
-                    <span className="feature-value">Value: {feature.value}</span>
-                    <div className="feature-bar">
-                      <div
-                        className={`feature-bar-fill ${feature.contribution}`}
-                        style={{
-                          width: `${Math.abs(feature.value) * 10}%`,
-                          maxWidth: '100%'
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+
           </div>
 
           <div className="explanation-summary">
@@ -338,57 +241,15 @@ const ExoplanetResults = ({ data }) => {
         </div>
       )}
 
-      <div className="charts-grid">
+      <div className="charts-grid slide-up-delay-4">
         <div className="chart-card">
           <h3>Confidence Level</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={confidenceData}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                label={({ name, value }) => `${name}: ${value.toFixed(1)}%`}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-              >
-                {confidenceData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+          <SimplePieChart data={confidenceData} colors={COLORS} />
         </div>
 
         <div className="chart-card">
           <h3>Habitable Zone Status</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={habitableZoneData}>
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke="rgba(255,255,255,0.1)"
-              />
-              <XAxis dataKey="zone" stroke="#cbd5e0" />
-              <YAxis stroke="#cbd5e0" />
-              <Tooltip
-                contentStyle={{
-                  background: "#1a1f3a",
-                  border: "1px solid rgba(255,255,255,0.2)",
-                }}
-                labelStyle={{ color: "#e2e8f0" }}
-              />
-              <Bar dataKey="value" radius={[8, 8, 0, 0]}>
-                {habitableZoneData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={ZONE_COLORS[index]} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          <SimpleBarChart data={habitableZoneData} colors={ZONE_COLORS} />
           <div className={`zone-status ${getHabitableZoneClass(data.habitable_zone_status)}`}>
             Current Status:{" "}
             <strong style={{ color: getHabitableZoneColor(data.habitable_zone_status) }}>
@@ -485,7 +346,7 @@ const ExoplanetResults = ({ data }) => {
       </div>
 
       {data.plot_url && (
-        <div className="visualization-card">
+        <div className="visualization-card slide-up-delay-5">
           <h3>System Visualization</h3>
           <div className="plot-container">
             <img

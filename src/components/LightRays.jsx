@@ -187,9 +187,9 @@ const LightRays = ({
           }
           
           float brightness = 1.0 - (coord.y / iResolution.y);
-          fragColor.x *= 0.1 + brightness * 0.8;
-          fragColor.y *= 0.3 + brightness * 0.6;
-          fragColor.z *= 0.5 + brightness * 0.5;
+          fragColor.x *= 0.3 + brightness * 1.2;
+          fragColor.y *= 0.5 + brightness * 1.0;
+          fragColor.z *= 0.7 + brightness * 0.8;
           
           if (saturation != 1.0) {
             float gray = dot(fragColor.rgb, vec3(0.299, 0.587, 0.114));
@@ -252,10 +252,21 @@ const LightRays = ({
         uniforms.rayDir.value = dir;
       };
 
+      let lastFrameTime = 0;
+      const targetFPS = 60;
+      const frameInterval = 1000 / targetFPS;
+
       const loop = t => {
         if (!rendererRef.current || !uniformsRef.current || !meshRef.current) {
           return;
         }
+
+        // Throttle to 60fps max
+        if (t - lastFrameTime < frameInterval) {
+          animationIdRef.current = requestAnimationFrame(loop);
+          return;
+        }
+        lastFrameTime = t;
 
         uniforms.iTime.value = t * 0.001;
 

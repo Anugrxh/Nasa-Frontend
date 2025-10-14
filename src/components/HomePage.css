@@ -3,7 +3,21 @@
   background: transparent;
   color: white;
   overflow-x: hidden;
+  overflow-y: hidden;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.home-page::-webkit-scrollbar {
+  display: none;
+}
+
+/* Prevent any overflow during loading */
+.home-page * {
+  box-sizing: border-box;
 }
 
 .hero-section {
@@ -288,6 +302,16 @@ html {
   }
 }
 
+/* Pulse animation for icons */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
 .fact-icon {
   animation: float 3s ease-in-out infinite;
 }
@@ -410,4 +434,141 @@ Ensure SplashCursor visibility */
 #fluid {
   mix-blend-mode: screen;
   opacity: 0.9;
+}/* 
+CSS animations to replace framer-motion and prevent FOUC */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Initial state - prevent FOUC and layout shifts */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out forwards;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.slide-up {
+  opacity: 0;
+  animation: slideUp 0.8s ease-out forwards;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+[class*="slide-up-delay"] {
+  opacity: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.slide-up-delay-1 {
+  animation: slideUp 0.8s ease-out 0.2s forwards;
+}
+
+.slide-up-delay-2 {
+  animation: slideUp 0.8s ease-out 0.4s forwards;
+}
+
+.slide-up-delay-3 {
+  animation: slideUp 0.8s ease-out 0.6s forwards;
+}
+
+.slide-up-delay-4 {
+  animation: slideUp 0.8s ease-out 0.8s forwards;
+}
+
+.slide-up-delay-5 {
+  animation: slideUp 0.8s ease-out 1.0s forwards;
+}
+
+.slide-up-delay-6 {
+  animation: slideUp 0.8s ease-out 1.2s forwards;
+}
+
+.slide-up-delay-7 {
+  animation: slideUp 0.8s ease-out 1.4s forwards;
+}
+
+.slide-up-delay-8 {
+  animation: slideUp 0.8s ease-out 1.6s forwards;
+}
+
+.slide-up-delay-9 {
+  animation: slideUp 0.8s ease-out 1.8s forwards;
+}
+
+/* Enhanced hover animations for fact cards */
+.fact-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fact-card:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* CTA button hover animation */
+.cta-button {
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* Mobile optimizations - keep animations but make them faster */
+@media (max-width: 768px) {
+  /* Reduce animation delays on mobile for faster loading */
+  .slide-up-delay-1 { animation-delay: 0.1s; }
+  .slide-up-delay-2 { animation-delay: 0.2s; }
+  .slide-up-delay-3 { animation-delay: 0.3s; }
+  .slide-up-delay-4 { animation-delay: 0.4s; }
+  .slide-up-delay-5 { animation-delay: 0.5s; }
+  .slide-up-delay-6 { animation-delay: 0.6s; }
+  .slide-up-delay-7 { animation-delay: 0.7s; }
+  .slide-up-delay-8 { animation-delay: 0.8s; }
+  .slide-up-delay-9 { animation-delay: 0.9s; }
+  
+  /* Reduce animation duration on mobile */
+  .fade-in,
+  .slide-up,
+  [class*="slide-up-delay"] {
+    animation-duration: 0.6s;
+  }
+}
+
+/* Very small screens - faster animations but still keep them */
+@media (max-width: 480px) {
+  .fade-in,
+  .slide-up,
+  [class*="slide-up-delay"] {
+    animation-duration: 0.4s;
+  }
+  
+  /* Reduce transform distance for smoother mobile performance */
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

@@ -7,6 +7,12 @@
   pointer-events: none;
   z-index: -2;
   overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.animated-background::-webkit-scrollbar {
+  display: none;
 }
 
 .star {

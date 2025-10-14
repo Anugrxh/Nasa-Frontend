@@ -31,6 +31,9 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem 2rem;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .error-message {
@@ -56,6 +59,26 @@
   .prediction-main {
     padding: 0 1rem 2rem;
   }
+  
+  /* Faster animations on mobile for better performance */
+  .slide-up {
+    animation-duration: 0.4s;
+  }
+  
+  .slide-up-delay-1,
+  .slide-up-delay-2,
+  .slide-up-delay-3,
+  .slide-up-delay-4,
+  .slide-up-delay-5 {
+    animation-duration: 0.4s;
+  }
+  
+  /* Reduce animation delays on mobile */
+  .slide-up-delay-1 { animation-delay: 0.05s; }
+  .slide-up-delay-2 { animation-delay: 0.1s; }
+  .slide-up-delay-3 { animation-delay: 0.15s; }
+  .slide-up-delay-4 { animation-delay: 0.2s; }
+  .slide-up-delay-5 { animation-delay: 0.25s; }
 }/* Gl
 assmorphism background effects for prediction page */
 .prediction-page {
@@ -155,4 +178,123 @@ ing message styling */
   color: #94a3b8 !important;
   font-size: 0.9rem !important;
   font-weight: 400 !important;
+}/* Results
+ wrapper to prevent layout shifts */
+.results-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  opacity: 0;
+  animation: fadeInResults 0.5s ease-out 0.1s forwards;
+  scroll-margin-top: 2rem;
+  padding-top: 1rem;
+  position: relative;
+}
+
+/* Lightweight bottom-to-up animations */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUpFadeDelay {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Base animation classes */
+.slide-up {
+  opacity: 0;
+  animation: slideUpFade 0.6s ease-out forwards;
+}
+
+.slide-up-delay-1 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.1s forwards;
+}
+
+.slide-up-delay-2 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.2s forwards;
+}
+
+.slide-up-delay-3 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.3s forwards;
+}
+
+.slide-up-delay-4 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.4s forwards;
+}
+
+.slide-up-delay-5 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.5s forwards;
+}
+
+@keyframes fadeInResults {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Subtle highlight when results appear */
+.results-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -2rem;
+  right: -2rem;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #4a90e2, transparent);
+  border-radius: 2px;
+  opacity: 0;
+  animation: highlightResults 2s ease-out 0.5s forwards;
+}
+
+@keyframes highlightResults {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+
+/* Ensure no horizontal scrollbars during transitions */
+.prediction-main {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Prevent content jumping during loading */
+.loading-message,
+.error-message,
+.results-wrapper {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }

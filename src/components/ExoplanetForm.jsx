@@ -1,22 +1,25 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import './ExoplanetForm.css'
 
+// Default values as constants to avoid recreation
+const DEFAULT_VALUES = {
+  koi_period: 365.0,
+  koi_prad: 1.0,
+  koi_steff: 5778,
+  koi_duration: 10.0,
+  koi_depth: 1000,
+  koi_insol: 1.0,
+  koi_srad: 1.0,
+  koi_score: 0.95,
+  koi_fpflag_nt: 1,
+  koi_fpflag_ss: 0,
+  koi_fpflag_co: 0,
+  koi_teq: 288,
+  koi_model_snr: 12.5
+};
+
 const ExoplanetForm = ({ onSubmit, loading }) => {
-  const [formData, setFormData] = useState({
-    koi_period: 365.0,
-    koi_prad: 1.0,
-    koi_steff: 5778,
-    koi_duration: 10.0,
-    koi_depth: 1000,
-    koi_insol: 1.0,
-    koi_srad: 1.0,
-    koi_score: 0.95,
-    koi_fpflag_nt: 1,
-    koi_fpflag_ss: 0,
-    koi_fpflag_co: 0,
-    koi_teq: 288,
-    koi_model_snr: 12.5
-  })
+  const [formData, setFormData] = useState(DEFAULT_VALUES)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -37,7 +40,8 @@ const ExoplanetForm = ({ onSubmit, loading }) => {
     onSubmit(numericData)
   }
 
-  const fields = [
+  // Memoize fields array to prevent recreation on every render
+  const fields = useMemo(() => [
     { name: 'koi_period', label: 'Orbital Period (days)', min: 0, step: 'any' },
     { name: 'koi_prad', label: 'Planet Radius (Earth radii)', min: 0, step: 'any' },
     { name: 'koi_steff', label: 'Stellar Effective Temp (K)', min: 0, step: 'any' },
@@ -51,15 +55,15 @@ const ExoplanetForm = ({ onSubmit, loading }) => {
     { name: 'koi_fpflag_co', label: 'Centroid Offset Flag', min: 0, max: 1, step: 1 },
     { name: 'koi_teq', label: 'Equilibrium Temp (K)', min: 0, step: 'any' },
     { name: 'koi_model_snr', label: 'Transit Signal-to-Noise', min: 0, step: 'any' }
-  ]
+  ], [])
 
   return (
     <div className="exoplanet-form-container">
-      <h2>Enter Kepler Object Parameters</h2>
+      <h2 className="slide-up">Enter Kepler Object Parameters</h2>
       <form onSubmit={handleSubmit} className="exoplanet-form">
-        <div className="form-grid">
-          {fields.map(field => (
-            <div key={field.name} className="form-field">
+        <div className="form-grid slide-up-delay-1">
+          {fields.map((field, index) => (
+            <div key={field.name} className={`form-field slide-up-delay-${Math.min(5, Math.floor(index / 3) + 2)}`}>
               <label htmlFor={field.name}>{field.label}</label>
               <input
                 type="number"
@@ -75,7 +79,7 @@ const ExoplanetForm = ({ onSubmit, loading }) => {
             </div>
           ))}
         </div>
-        <button type="submit" className="submit-btn" disabled={loading}>
+        <button type="submit" className="submit-btn slide-up-delay-5" disabled={loading}>
           {loading ? '🔄 Analyzing...' : '🚀 Analyze Exoplanet'}
         </button>
       </form>

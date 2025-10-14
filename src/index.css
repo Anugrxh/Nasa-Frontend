@@ -7,6 +7,39 @@
 html, body {
   overflow-x: hidden;
   width: 100%;
+  max-width: 100%;
+}
+
+/* Hide all scrollbars globally */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* WebKit browsers (Chrome, Safari, Edge) */
+}
+
+html, body, #root {
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure smooth scrolling for the main page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent double scrollbars during page load */
+body {
+  position: relative;
 }
 
 body {

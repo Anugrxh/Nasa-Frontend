@@ -9,6 +9,67 @@
     0 12px 40px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   animation: slideInLeft 0.6s ease-out;
+  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.exoplanet-form-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Lightweight bottom-to-up animations for form */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUpFadeDelay {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Base animation classes for form */
+.slide-up {
+  opacity: 0;
+  animation: slideUpFade 0.6s ease-out forwards;
+}
+
+.slide-up-delay-1 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.1s forwards;
+}
+
+.slide-up-delay-2 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.2s forwards;
+}
+
+.slide-up-delay-3 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.3s forwards;
+}
+
+.slide-up-delay-4 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.4s forwards;
+}
+
+.slide-up-delay-5 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.5s forwards;
 }
 
 @keyframes slideInLeft {
@@ -190,6 +251,26 @@
   .form-field input {
     padding: 0.6rem;
   }
+  
+  /* Faster animations on mobile for better performance */
+  .slide-up {
+    animation-duration: 0.4s;
+  }
+  
+  .slide-up-delay-1,
+  .slide-up-delay-2,
+  .slide-up-delay-3,
+  .slide-up-delay-4,
+  .slide-up-delay-5 {
+    animation-duration: 0.4s;
+  }
+  
+  /* Reduce animation delays on mobile */
+  .slide-up-delay-1 { animation-delay: 0.05s; }
+  .slide-up-delay-2 { animation-delay: 0.1s; }
+  .slide-up-delay-3 { animation-delay: 0.15s; }
+  .slide-up-delay-4 { animation-delay: 0.2s; }
+  .slide-up-delay-5 { animation-delay: 0.25s; }
 }
 
 @media (max-width: 480px) {

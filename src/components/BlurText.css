@@ -1,0 +1,59 @@
+/* BlurText CSS Animation */
+.blur-text-container {
+  opacity: 1;
+}
+
+@keyframes blurToFocus {
+  from {
+    filter: blur(10px);
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    filter: blur(0px);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.blur-text-segment {
+  display: inline-block;
+  filter: blur(10px);
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.blur-text-segment.animate {
+  animation: blurToFocus 0.6s ease-out forwards;
+}
+
+/* Ensure proper spacing for words */
+.blur-text-container .blur-text-segment + .blur-text-segment {
+  margin-left: 0.1em;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .blur-text-segment.animate {
+    animation-duration: 0.4s;
+  }
+}
+
+@media (max-width: 480px) {
+  @keyframes blurToFocus {
+    from {
+      filter: blur(10px);
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      filter: blur(0px);
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .blur-text-segment.animate {
+    animation-duration: 0.3s;
+  }
+}

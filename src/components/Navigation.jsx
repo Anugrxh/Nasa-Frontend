@@ -8,6 +8,7 @@ const Navigation = () => {
   const navRef = useRef(null);
 
   const toggleMobileMenu = () => {
+    console.log('Mobile menu toggle clicked, current state:', isMobileMenuOpen);
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 

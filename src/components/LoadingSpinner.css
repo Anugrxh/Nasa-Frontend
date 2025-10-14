@@ -11,10 +11,22 @@
   border: 3px solid;
   border-radius: 50%;
   border-top-style: solid;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .loading-text {
   color: #a0aec0;
   font-size: 0.9rem;
   text-align: center;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }

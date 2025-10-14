@@ -3,6 +3,57 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   padding: 1rem 2rem;
   animation: slideDown 0.6s ease-out;
+  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.metrics-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Lightweight bottom-to-up animations for metrics */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUpFadeDelay {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Base animation classes for metrics */
+.slide-up {
+  opacity: 0;
+  animation: slideUpFade 0.6s ease-out forwards;
+}
+
+.slide-up-delay-1 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.1s forwards;
+}
+
+.slide-up-delay-2 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.2s forwards;
+}
+
+.slide-up-delay-3 {
+  opacity: 0;
+  animation: slideUpFadeDelay 0.6s ease-out 0.3s forwards;
 }
 
 @keyframes slideDown {
@@ -176,4 +227,20 @@
   .metric-value {
     font-size: 1.25rem;
   }
+  
+  /* Faster animations on mobile for better performance */
+  .slide-up {
+    animation-duration: 0.4s;
+  }
+  
+  .slide-up-delay-1,
+  .slide-up-delay-2,
+  .slide-up-delay-3 {
+    animation-duration: 0.4s;
+  }
+  
+  /* Reduce animation delays on mobile */
+  .slide-up-delay-1 { animation-delay: 0.05s; }
+  .slide-up-delay-2 { animation-delay: 0.1s; }
+  .slide-up-delay-3 { animation-delay: 0.15s; }
 }

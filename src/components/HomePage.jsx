@@ -1,245 +1,222 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { useSpring, animated } from '@react-spring/web';
-import AnimatedBackground from './AnimatedBackground';
-import BlurText from './BlurText';
-import SplashCursor from './SplashCursor';
-import LightRays from './LightRays';
+import { lazy, Suspense, useEffect, useState, useRef } from 'react';
+import { getDeviceCapability } from '../utils/performance';
 import './HomePage.css';
 
+// Detect device capability once
+const deviceCapability = getDeviceCapability();
+const shouldLoadHeavyComponents = deviceCapability.isHighPerformance;
+
+// Conditional lazy loading based on device capability
+const BlurText = lazy(() => import('./BlurText'));
+const LightSplashCursor = lazy(() => import('./LightSplashCursor'));
+
+// Only load heavy components on capable devices
+const HeavySplashCursor = shouldLoadHeavyComponents
+    ? lazy(() => import('./SplashCursor'))
+    : null;
+
+const LightRays = shouldLoadHeavyComponents
+    ? lazy(() => import('./LightRays'))
+    : null;
+
+// Lightweight intersection observer hook
+const useSimpleInView = (threshold = 0.3) => {
+    const [isInView, setIsInView] = useState(false);
+    const ref = useRef();
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !isInView) {
+                    setIsInView(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold }
+        );
+
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+
+        return () => observer.disconnect();
+    }, [threshold, isInView]);
+
+    return [ref, isInView];
+};
+
 const HomePage = () => {
-    const [heroRef, heroInView] = useInView({ threshold: 0.3, triggerOnce: true });
-    const [factsRef, factsInView] = useInView({ threshold: 0.2, triggerOnce: true });
-    const [keplerRef, keplerInView] = useInView({ threshold: 0.3, triggerOnce: true });
-    const [ctaRef, ctaInView] = useInView({ threshold: 0.3, triggerOnce: true });
+    const [heroRef] = useSimpleInView(0.3);
+    const [factsRef] = useSimpleInView(0.2);
+    const [keplerRef] = useSimpleInView(0.3);
+    const [ctaRef] = useSimpleInView(0.3);
 
-    // Animation variants
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.3,
-                delayChildren: 0.2
+    // Optimize for back/forward cache
+    useEffect(() => {
+        const handlePageShow = (event) => {
+            if (event.persisted) {
+                // Page was restored from cache, no need to reload
+                return;
             }
-        }
+        };
+
+        const handleBeforeUnload = () => {
+            // Clean up any ongoing operations
+            return null;
+        };
+
+        window.addEventListener('pageshow', handlePageShow);
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('pageshow', handlePageShow);
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
+
+
+    // Simple CSS-based pulse animation (no react-spring needed)
+    const pulseStyle = {
+        animation: 'pulse 1.5s ease-in-out infinite'
     };
 
-    const itemVariants = {
-        hidden: { y: 50, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                type: "spring",
-                stiffness: 100,
-                damping: 12
-            }
-        }
-    };
-
-    const cardVariants = {
-        hidden: { scale: 0.8, opacity: 0 },
-        visible: {
-            scale: 1,
-            opacity: 1,
-            transition: {
-                type: "spring",
-                stiffness: 120,
-                damping: 15
-            }
-        }
-    };
-
-    // React Spring animations
-    const floatingAnimation = useSpring({
-        from: { transform: 'translateY(0px)' },
-        to: async (next) => {
-            while (true) {
-                await next({ transform: 'translateY(-10px)' });
-                await next({ transform: 'translateY(0px)' });
-            }
-        },
-        config: { duration: 2000 }
-    });
-
-    const pulseAnimation = useSpring({
-        from: { scale: 1 },
-        to: async (next) => {
-            while (true) {
-                await next({ scale: 1.05 });
-                await next({ scale: 1 });
-            }
-        },
-        config: { duration: 1500 }
-    });
-
-    return (
-        <motion.div
-            className="home-page"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-        >
-            <LightRays
-                raysOrigin="top-center"
-                raysColor="#4a90e2"
-                raysSpeed={0.8}
-                lightSpread={2}
-                rayLength={1.5}
-                pulsating={true}
-                fadeDistance={0.8}
-                saturation={0.7}
-                followMouse={true}
-                mouseInfluence={0.15}
-                noiseAmount={0.1}
-                distortion={0.2}
-            />
-            <SplashCursor
-                DENSITY_DISSIPATION={1.8}
-                VELOCITY_DISSIPATION={1.2}
-                SPLAT_RADIUS={0.25}
-                SPLAT_FORCE={8000}
-                COLOR_UPDATE_SPEED={12}
-                SHADING={true}
-            />
-            <AnimatedBackground />
-            <motion.header
-                className="hero-section"
-                ref={heroRef}
-                initial="hidden"
-                animate={heroInView ? "visible" : "hidden"}
-                variants={containerVariants}
-            >
-                <div className="hero-content">
-                    <motion.div variants={itemVariants}>
-                        <BlurText
-                            text="Discover Exoplanets"
-                            delay={150}
-                            className="hero-title"
-                            animateBy="words"
+    // Render with or without animations based on device capability
+    const renderContent = () => (
+        <>
+            <Suspense fallback={<div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }} />}>
+                {shouldLoadHeavyComponents && LightRays && HeavySplashCursor ? (
+                    <>
+                        <LightRays
+                            raysOrigin="top-center"
+                            raysColor="#4a90e2"
+                            raysSpeed={0.8}
+                            lightSpread={2}
+                            rayLength={1.5}
+                            pulsating={true}
+                            fadeDistance={0.8}
+                            saturation={0.7}
+                            followMouse={true}
+                            mouseInfluence={0.15}
+                            noiseAmount={0.1}
+                            distortion={0.2}
                         />
-                    </motion.div>
-                    <motion.p
-                        className="hero-subtitle"
-                        variants={itemVariants}
-                    >
+                        <HeavySplashCursor
+                            DENSITY_DISSIPATION={1.5}
+                            VELOCITY_DISSIPATION={1.0}
+                            SPLAT_RADIUS={0.3}
+                            SPLAT_FORCE={6000}
+                            COLOR_UPDATE_SPEED={10}
+                            SHADING={true}
+                        />
+                    </>
+                ) : (
+                    <LightSplashCursor />
+                )}
+            </Suspense>
+
+            <header className="hero-section slide-up" ref={heroRef}>
+                <div className="hero-content">
+                    <div className="slide-up-delay-1">
+                        <Suspense fallback={<h1 className="hero-title" style={{ opacity: 0 }}>Discover Exoplanets</h1>}>
+                            <BlurText
+                                text="Discover Exoplanets"
+                                delay={150}
+                                className="hero-title"
+                                animateBy="words"
+                            />
+                        </Suspense>
+                    </div>
+                    <p className="hero-subtitle slide-up-delay-2">
                         Journey into the cosmos and learn about planets beyond our solar system
-                    </motion.p>
+                    </p>
                 </div>
-            </motion.header>
+            </header>
 
             <main className="home-content">
-                <motion.section
-                    className="intro-section"
-                    initial="hidden"
-                    animate={heroInView ? "visible" : "hidden"}
-                    variants={containerVariants}
-                >
-                    <motion.h2 variants={itemVariants}>What are Exoplanets?</motion.h2>
-                    <motion.p variants={itemVariants}>
+                <section className="intro-section slide-up-delay-3">
+                    <h2>What are Exoplanets?</h2>
+                    <p>
                         Exoplanets, also called extrasolar planets, are planets that orbit stars outside our solar system.
                         Think of them as distant worlds that might be similar to Earth, Mars, or Jupiter, but they circle
                         other stars instead of our Sun.
-                    </motion.p>
-                </motion.section>
+                    </p>
+                </section>
 
-                <motion.section
-                    className="facts-grid"
-                    ref={factsRef}
-                    initial="hidden"
-                    animate={factsInView ? "visible" : "hidden"}
-                    variants={containerVariants}
-                >
-                    <motion.div className="fact-card" variants={cardVariants} whileHover={{ scale: 1.05, y: -5 }}>
-                        <animated.div className="fact-icon" style={pulseAnimation}>🔭</animated.div>
+                <section className="facts-grid" ref={factsRef}>
+                    <div className="fact-card slide-up-delay-4">
+                        <div className="fact-icon" style={pulseStyle}>🔭</div>
                         <h3>How We Find Them</h3>
                         <p>
                             Scientists use space telescopes like Kepler and TESS to detect tiny dips in starlight
                             when a planet passes in front of its star - like a mini eclipse!
                         </p>
-                    </motion.div>
+                    </div>
 
-                    <motion.div className="fact-card" variants={cardVariants} whileHover={{ scale: 1.05, y: -5 }}>
-                        <animated.div className="fact-icon" style={pulseAnimation}>📊</animated.div>
+                    <div className="fact-card slide-up-delay-5">
+                        <div className="fact-icon" style={pulseStyle}>📊</div>
                         <h3>By the Numbers</h3>
                         <p>
                             Over 5,000 exoplanets have been confirmed so far, with thousands more candidates
                             waiting to be verified. New discoveries happen regularly!
                         </p>
-                    </motion.div>
+                    </div>
 
-                    <motion.div className="fact-card" variants={cardVariants} whileHover={{ scale: 1.05, y: -5 }}>
-                        <animated.div className="fact-icon" style={pulseAnimation}>🌍</animated.div>
+                    <div className="fact-card slide-up-delay-6">
+                        <div className="fact-icon" style={pulseStyle}>🌍</div>
                         <h3>Types of Exoplanets</h3>
                         <p>
                             From scorching hot gas giants to potentially habitable rocky worlds, exoplanets
                             come in amazing varieties - some unlike anything in our solar system.
                         </p>
-                    </motion.div>
+                    </div>
 
-                    <motion.div className="fact-card" variants={cardVariants} whileHover={{ scale: 1.05, y: -5 }}>
-                        <animated.div className="fact-icon" style={pulseAnimation}>🔬</animated.div>
+                    <div className="fact-card slide-up-delay-7">
+                        <div className="fact-icon" style={pulseStyle}>🔬</div>
                         <h3>The Search for Life</h3>
                         <p>
                             Scientists look for planets in the "habitable zone" - not too hot, not too cold -
                             where liquid water could exist on the surface.
                         </p>
-                    </motion.div>
-                </motion.section>
+                    </div>
+                </section>
 
-                <motion.section
-                    className="kepler-section"
-                    ref={keplerRef}
-                    initial="hidden"
-                    animate={keplerInView ? "visible" : "hidden"}
-                    variants={containerVariants}
-                >
-                    <motion.h2 variants={itemVariants}>The Kepler Mission</motion.h2>
+                <section className="kepler-section slide-up-delay-8" ref={keplerRef}>
+                    <h2>The Kepler Mission</h2>
                     <div className="kepler-content">
                         <div className="kepler-text">
-                            <motion.p variants={itemVariants}>
+                            <p>
                                 NASA's Kepler Space Telescope was a game-changer in exoplanet discovery.
                                 Launched in 2009, it stared at over 150,000 stars simultaneously, looking
                                 for the telltale dimming that occurs when a planet crosses in front of its star.
-                            </motion.p>
-                            <motion.p variants={itemVariants}>
+                            </p>
+                            <p>
                                 Kepler discovered thousands of exoplanet candidates, revolutionizing our
                                 understanding of how common planets are in our galaxy. The data it collected
                                 continues to yield new discoveries even today!
-                            </motion.p>
+                            </p>
                         </div>
                     </div>
-                </motion.section>
+                </section>
 
-                <motion.section
-                    className="cta-section"
-                    ref={ctaRef}
-                    initial="hidden"
-                    animate={ctaInView ? "visible" : "hidden"}
-                    variants={containerVariants}
-                >
-                    <motion.h2 variants={itemVariants}>Ready to Explore?</motion.h2>
-                    <motion.p variants={itemVariants}>
+                <section className="cta-section slide-up-delay-9" ref={ctaRef}>
+                    <h2>Ready to Explore?</h2>
+                    <p>
                         Use our prediction tool to analyze real Kepler mission data and help identify
                         potential exoplanets from the signals detected by the telescope.
-                    </motion.p>
-                    <motion.div variants={itemVariants}>
-                        <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            <Link to="/prediction" className="cta-button">
-                                🚀 Start Predicting Exoplanets
-                            </Link>
-                        </motion.div>
-                    </motion.div>
-                </motion.section>
+                    </p>
+                    <div>
+                        <Link to="/prediction" className="cta-button">
+                            🚀 Start Predicting Exoplanets
+                        </Link>
+                    </div>
+                </section>
             </main>
-        </motion.div>
+        </>
     );
+
+    return <div className="home-page fade-in">{renderContent()}</div>;
 };
 
 export default HomePage;
