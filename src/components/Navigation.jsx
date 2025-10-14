@@ -41,7 +41,7 @@ const Navigation = () => {
     <nav className="navigation" ref={navRef}>
       <div className="nav-container">
         <Link to="/" className="nav-logo" onClick={closeMobileMenu}>
-          🌌 ExoPlanet Hunter
+          ExoPlanet Hunter
         </Link>
         
         <button 
@@ -69,7 +69,7 @@ const Navigation = () => {
             className={`nav-link ${location.pathname === '/prediction' ? 'active' : ''}`}
             onClick={closeMobileMenu}
           >
-            🔮 Prediction
+            Prediction
           </Link>
         </div>
       </div>
