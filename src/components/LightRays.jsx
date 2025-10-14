@@ -9,8 +9,8 @@ const hexToRgb = hex => {
   return m ? [parseInt(m[1], 16) / 255, parseInt(m[2], 16) / 255, parseInt(m[3], 16) / 255] : [1, 1, 1];
 };
 
-const getAnchorAndDir = (origin, w, h) => {
-  const outside = 0.2;
+const getAnchorAndDir = (origin, w, h, isMobile = false) => {
+  const outside = isMobile ? 0.1 : 0.2; // Closer to screen on mobile for better coverage
   switch (origin) {
     case 'top-left':
       return { anchor: [0, -outside * h], dir: [0, 1] };
@@ -27,7 +27,10 @@ const getAnchorAndDir = (origin, w, h) => {
     case 'bottom-right':
       return { anchor: [w, (1 + outside) * h], dir: [0, -1] };
     default: // "top-center"
-      return { anchor: [0.5 * w, -outside * h], dir: [0, 1] };
+      return { 
+        anchor: [0.5 * w, -outside * h], 
+        dir: [0, 1] 
+      };
   }
 };
 
@@ -55,7 +58,20 @@ const LightRays = ({
   const meshRef = useRef(null);
   const cleanupFunctionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const observerRef = useRef(null);
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      setIsMobile(mobile);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -93,8 +109,9 @@ const LightRays = ({
       if (!containerRef.current) return;
 
       const renderer = new Renderer({
-        dpr: Math.min(window.devicePixelRatio, 2),
-        alpha: true
+        dpr: isMobile ? 1 : Math.min(window.devicePixelRatio, 2),
+        alpha: true,
+        antialias: false
       });
       rendererRef.current = renderer;
 
@@ -146,18 +163,21 @@ const LightRays = ({
           float cosAngle = dot(dirNorm, rayRefDirection);
           
           float distortedAngle = cosAngle + distortion * sin(iTime * 2.0 + length(sourceToCoord) * 0.01) * 0.2;
-          float spreadFactor = pow(max(distortedAngle, 0.0), 1.0 / max(lightSpread, 0.001));
+          // Enhanced spread factor for better mobile coverage
+          float spreadFactor = pow(max(distortedAngle, -0.2), 1.0 / max(lightSpread, 0.001));
           
           float distance = length(sourceToCoord);
           float maxDistance = iResolution.x * rayLength;
           float lengthFalloff = clamp((maxDistance - distance) / maxDistance, 0.0, 1.0);
-          float fadeFalloff = clamp((iResolution.x * fadeDistance - distance) / (iResolution.x * fadeDistance), 0.5, 1.0);
+          // More generous fade falloff for mobile
+          float fadeFalloff = clamp((iResolution.x * fadeDistance - distance) / (iResolution.x * fadeDistance), 0.3, 1.0);
           
           float pulse = pulsating > 0.5 ? (0.8 + 0.2 * sin(iTime * speed * 3.0)) : 1.0;
           
-          float baseStrength = clamp((0.45 + 0.15 * sin(distortedAngle * seedA + iTime * speed)) +
-                                   (0.3 + 0.2 * cos(-distortedAngle * seedB + iTime * speed)),
-                                   0.0, 1.0);
+          // Enhanced base strength for better visibility
+          float baseStrength = clamp((0.6 + 0.2 * sin(distortedAngle * seedA + iTime * speed)) +
+                                   (0.4 + 0.3 * cos(-distortedAngle * seedB + iTime * speed)),
+                                   0.0, 1.2);
           
           return baseStrength * lengthFalloff * fadeFalloff * spreadFactor * pulse;
         }
@@ -213,13 +233,13 @@ const LightRays = ({
         rayDir: { value: [0, 1] },
         raysColor: { value: hexToRgb(raysColor) },
         raysSpeed: { value: raysSpeed },
-        lightSpread: { value: lightSpread },
-        rayLength: { value: rayLength },
+        lightSpread: { value: isMobile ? Math.max(lightSpread * 1.3, 1.5) : lightSpread }, // Slightly wider spread on mobile
+        rayLength: { value: isMobile ? Math.min(rayLength * 1.2, 3.5) : rayLength }, // Slightly longer rays on mobile
         pulsating: { value: pulsating ? 1.0 : 0.0 },
-        fadeDistance: { value: fadeDistance },
-        saturation: { value: saturation },
+        fadeDistance: { value: isMobile ? Math.min(fadeDistance * 1.3, 2.5) : fadeDistance }, // Less fade on mobile
+        saturation: { value: isMobile ? Math.min(saturation * 1.2, 1.5) : saturation }, // More saturated on mobile
         mousePos: { value: [0.5, 0.5] },
-        mouseInfluence: { value: mouseInfluence },
+        mouseInfluence: { value: isMobile ? 0 : mouseInfluence }, // Disable mouse influence on mobile
         noiseAmount: { value: noiseAmount },
         distortion: { value: distortion }
       };
@@ -237,7 +257,7 @@ const LightRays = ({
       const updatePlacement = () => {
         if (!containerRef.current || !renderer) return;
 
-        renderer.dpr = Math.min(window.devicePixelRatio, 2);
+        renderer.dpr = isMobile ? 1 : Math.min(window.devicePixelRatio, 2);
         const { clientWidth: wCSS, clientHeight: hCSS } = containerRef.current;
         renderer.setSize(wCSS, hCSS);
 
@@ -247,7 +267,7 @@ const LightRays = ({
 
         uniforms.iResolution.value = [w, h];
 
-        const { anchor, dir } = getAnchorAndDir(raysOrigin, w, h);
+        const { anchor, dir } = getAnchorAndDir(raysOrigin, w, h, isMobile);
         uniforms.rayPos.value = anchor;
         uniforms.rayDir.value = dir;
       };
@@ -362,7 +382,7 @@ const LightRays = ({
 
     const { clientWidth: wCSS, clientHeight: hCSS } = containerRef.current;
     const dpr = renderer.dpr;
-    const { anchor, dir } = getAnchorAndDir(raysOrigin, wCSS * dpr, hCSS * dpr);
+    const { anchor, dir } = getAnchorAndDir(raysOrigin, wCSS * dpr, hCSS * dpr, isMobile);
     u.rayPos.value = anchor;
     u.rayDir.value = dir;
   }, [
@@ -395,7 +415,7 @@ const LightRays = ({
     }
   }, [followMouse]);
 
-  return <div ref={containerRef} className={`light-rays-container ${className}`.trim()} />;
+  return <div ref={containerRef} className={`light-rays-container ${isMobile ? 'mobile' : ''} ${className}`.trim()} />;
 };
 
 export default LightRays;

@@ -108,14 +108,14 @@ const PredictionPage = () => {
         <LightRays
           raysOrigin="top-center"
           raysColor="#7b68ee"
-          raysSpeed={1.2}
+          raysSpeed={1.0}
           lightSpread={1.5}
-          rayLength={2.5}
+          rayLength={2.2}
           pulsating={false}
-          fadeDistance={1.2}
-          saturation={1.0}
+          fadeDistance={1.5}
+          saturation={0.9}
           followMouse={true}
-          mouseInfluence={0.2}
+          mouseInfluence={0.15}
           noiseAmount={0.0}
           distortion={0.0}
           className="light-rays-clear"
