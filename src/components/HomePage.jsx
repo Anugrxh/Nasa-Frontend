@@ -5,7 +5,7 @@ import './HomePage.css';
 
 // Detect device capability once
 const deviceCapability = getDeviceCapability();
-const shouldLoadHeavyComponents = deviceCapability.isHighPerformance;
+const shouldLoadHeavyComponents = deviceCapability.isHighPerformance || deviceCapability.isMediumPerformance;
 
 // Conditional lazy loading based on device capability
 const BlurText = lazy(() => import('./BlurText'));
@@ -92,11 +92,11 @@ const HomePage = () => {
                             raysOrigin="top-center"
                             raysColor="#4a90e2"
                             raysSpeed={0.8}
-                            lightSpread={2}
-                            rayLength={1.5}
+                            lightSpread={2.5}
+                            rayLength={2.0}
                             pulsating={true}
-                            fadeDistance={0.8}
-                            saturation={0.7}
+                            fadeDistance={1.2}
+                            saturation={1.0}
                             followMouse={true}
                             mouseInfluence={0.15}
                             noiseAmount={0.1}
