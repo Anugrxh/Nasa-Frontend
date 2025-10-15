@@ -2,13 +2,14 @@
   min-height: 100vh;
   background: #000000;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
   width: 100%;
   max-width: 100vw;
   position: relative;
   box-sizing: border-box;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .app::-webkit-scrollbar {

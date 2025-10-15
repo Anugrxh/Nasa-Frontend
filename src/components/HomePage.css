@@ -3,7 +3,7 @@
   background: transparent;
   color: white;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
   position: relative;
   width: 100%;
   box-sizing: border-box;
@@ -218,6 +218,14 @@
 }
 
 @media (max-width: 768px) {
+  .home-page {
+    /* Ensure mobile scrolling works properly */
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    height: auto;
+    min-height: 100vh;
+  }
+  
   .hero-content h1 {
     font-size: 2.5rem;
   }
@@ -555,6 +563,14 @@ CSS animations to replace framer-motion and prevent FOUC */
 
 /* Very small screens - faster animations but still keep them */
 @media (max-width: 480px) {
+  .home-page {
+    /* Force scrolling on very small screens */
+    overflow-y: scroll !important;
+    -webkit-overflow-scrolling: touch !important;
+    height: auto !important;
+    position: relative !important;
+  }
+  
   .fade-in,
   .slide-up,
   [class*="slide-up-delay"] {

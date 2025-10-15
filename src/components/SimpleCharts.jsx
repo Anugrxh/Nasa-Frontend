@@ -105,41 +105,7 @@ export const SimpleSHAPChart = ({ features }) => {
   return (
     <div className="simple-shap-chart">
       <h4>Feature Importance Analysis</h4>
-      
-      {/* Mobile-optimized card layout */}
-      <div className="shap-cards-mobile">
-        {features.map((feature, index) => (
-          <div key={index} className={`shap-card ${feature.contribution}`}>
-            <div className="shap-card-header">
-              <div className="feature-name-mobile">{feature.feature}</div>
-              <div className={`impact-indicator ${feature.contribution}`}>
-                {feature.contribution === 'positive' ? '↗️' : '↘️'}
-              </div>
-            </div>
-            
-            <div className="shap-card-body">
-              <div className="contribution-text">
-                {feature.contribution === 'positive' ? 'Supports' : 'Against'} Classification
-              </div>
-              
-              <div className="shap-visual">
-                <div className="shap-bar-mobile">
-                  <div 
-                    className={`shap-fill ${feature.contribution}`}
-                    style={{ 
-                      width: `${(Math.abs(feature.value) / maxValue) * 100}%`
-                    }}
-                  ></div>
-                </div>
-                <div className="shap-value-mobile">{Math.abs(feature.value).toFixed(3)}</div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Desktop layout (hidden on mobile) */}
-      <div className="shap-bars-desktop">
+      <div className="shap-bars">
         {features.map((feature, index) => (
           <div key={index} className={`shap-item ${feature.contribution}`}>
             <div className="shap-label">
@@ -148,20 +114,20 @@ export const SimpleSHAPChart = ({ features }) => {
                 {feature.contribution === 'positive' ? '↗️ Supports' : '↘️ Against'}
               </span>
             </div>
-            <div className="shap-bar-container">
-              <div 
-                className={`shap-bar ${feature.contribution}`}
-                style={{ 
-                  width: `${(Math.abs(feature.value) / maxValue) * 100}%`
-                }}
-              >
-                <span className="shap-value">{feature.value}</span>
+            <div className="shap-bar-row">
+              <div className="shap-bar-container">
+                <div 
+                  className={`shap-bar ${feature.contribution}`}
+                  style={{ 
+                    width: `${(Math.abs(feature.value) / maxValue) * 100}%`
+                  }}
+                ></div>
               </div>
+              <span className="shap-value">{feature.value}</span>
             </div>
           </div>
         ))}
       </div>
-      
       <div className="shap-legend">
         <div className="legend-item">
           <div className="legend-color positive"></div>

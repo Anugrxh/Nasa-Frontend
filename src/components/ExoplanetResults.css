@@ -12,64 +12,71 @@
   display: none;
 }
 
-/* Lightweight bottom-to-up animations for results */
+/* Smooth bottom-to-up animations for results */
 @keyframes slideUpFade {
-  from {
+  0% {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px) scale(0.98);
   }
-  to {
+  50% {
+    opacity: 0.7;
+    transform: translateY(10px) scale(0.99);
+  }
+  100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 @keyframes slideUpFadeDelay {
-  from {
+  0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(15px) scale(0.98);
   }
-  to {
+  50% {
+    opacity: 0.7;
+    transform: translateY(7px) scale(0.99);
+  }
+  100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Base animation classes for results */
+/* Smooth animation classes for results */
 .slide-up {
   opacity: 0;
-  animation: slideUpFade 0.6s ease-out forwards;
-  /* Fallback to ensure visibility */
+  animation: slideUpFade 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   animation-fill-mode: both;
 }
 
 .slide-up-delay-1 {
   opacity: 0;
-  animation: slideUpFadeDelay 0.6s ease-out 0.1s forwards;
+  animation: slideUpFadeDelay 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.1s forwards;
   animation-fill-mode: both;
 }
 
 .slide-up-delay-2 {
   opacity: 0;
-  animation: slideUpFadeDelay 0.6s ease-out 0.2s forwards;
+  animation: slideUpFadeDelay 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
   animation-fill-mode: both;
 }
 
 .slide-up-delay-3 {
   opacity: 0;
-  animation: slideUpFadeDelay 0.6s ease-out 0.3s forwards;
+  animation: slideUpFadeDelay 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
   animation-fill-mode: both;
 }
 
 .slide-up-delay-4 {
   opacity: 0;
-  animation: slideUpFadeDelay 0.6s ease-out 0.4s forwards;
+  animation: slideUpFadeDelay 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s forwards;
   animation-fill-mode: both;
 }
 
 .slide-up-delay-5 {
   opacity: 0;
-  animation: slideUpFadeDelay 0.6s ease-out 0.5s forwards;
+  animation: slideUpFadeDelay 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards;
   animation-fill-mode: both;
 }
 
@@ -470,9 +477,10 @@
     padding: 0 0.5rem;
   }
   
-  /* Faster animations on mobile for better performance */
+  /* Smoother animations on mobile */
   .slide-up {
-    animation-duration: 0.4s;
+    animation-duration: 0.8s;
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   
   .slide-up-delay-1,
@@ -480,15 +488,16 @@
   .slide-up-delay-3,
   .slide-up-delay-4,
   .slide-up-delay-5 {
-    animation-duration: 0.4s;
+    animation-duration: 0.8s;
+    animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   
-  /* Reduce animation delays on mobile */
-  .slide-up-delay-1 { animation-delay: 0.05s; }
-  .slide-up-delay-2 { animation-delay: 0.1s; }
-  .slide-up-delay-3 { animation-delay: 0.15s; }
-  .slide-up-delay-4 { animation-delay: 0.2s; }
-  .slide-up-delay-5 { animation-delay: 0.25s; }
+  /* Smoother animation delays on mobile */
+  .slide-up-delay-1 { animation-delay: 0.1s; }
+  .slide-up-delay-2 { animation-delay: 0.2s; }
+  .slide-up-delay-3 { animation-delay: 0.3s; }
+  .slide-up-delay-4 { animation-delay: 0.4s; }
+  .slide-up-delay-5 { animation-delay: 0.5s; }
 }
 
 /* Fallback to ensure all elements are visible after animations complete */
@@ -528,11 +537,7 @@
   }
 }
 
-.results-container * {
-  /* Ensure no element stays hidden longer than 3 seconds */
-  animation-duration: 0.6s !important;
-  animation-fill-mode: forwards !important;
-}
+/* Removed aggressive animation overrides to prevent jumping */
 
 /* No animation fallback class */
 .no-animation {

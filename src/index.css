@@ -6,8 +6,10 @@
 
 html, body {
   overflow-x: hidden;
+  overflow-y: auto;
   width: 100%;
   max-width: 100%;
+  -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
 }
 
 /* Hide all scrollbars globally */
@@ -22,8 +24,10 @@ html, body {
 
 html, body, #root {
   overflow-x: hidden;
+  overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 html::-webkit-scrollbar,
@@ -40,6 +44,9 @@ html {
 /* Prevent double scrollbars during page load */
 body {
   position: relative;
+  /* Ensure mobile touch scrolling works */
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
