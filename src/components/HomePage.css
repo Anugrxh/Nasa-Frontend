@@ -456,17 +456,17 @@ CSS animations to replace framer-motion and prevent FOUC */
   }
 }
 
-/* Initial state - prevent FOUC and layout shifts */
+/* Clean single animation system - no double loading */
 .fade-in {
   opacity: 0;
-  animation: fadeIn 0.8s ease-out forwards;
+  animation: fadeIn 0.6s ease-out forwards;
   width: 100%;
   box-sizing: border-box;
 }
 
 .slide-up {
   opacity: 0;
-  animation: slideUp 0.8s ease-out forwards;
+  animation: slideUp 0.6s ease-out forwards;
   width: 100%;
   box-sizing: border-box;
 }
@@ -477,40 +477,41 @@ CSS animations to replace framer-motion and prevent FOUC */
   box-sizing: border-box;
 }
 
+/* Clean animation delays - faster and smoother */
 .slide-up-delay-1 {
-  animation: slideUp 0.8s ease-out 0.2s forwards;
+  animation: slideUp 0.6s ease-out 0.1s forwards;
 }
 
 .slide-up-delay-2 {
-  animation: slideUp 0.8s ease-out 0.4s forwards;
+  animation: slideUp 0.6s ease-out 0.2s forwards;
 }
 
 .slide-up-delay-3 {
-  animation: slideUp 0.8s ease-out 0.6s forwards;
+  animation: slideUp 0.6s ease-out 0.3s forwards;
 }
 
 .slide-up-delay-4 {
-  animation: slideUp 0.8s ease-out 0.8s forwards;
+  animation: slideUp 0.6s ease-out 0.4s forwards;
 }
 
 .slide-up-delay-5 {
-  animation: slideUp 0.8s ease-out 1.0s forwards;
+  animation: slideUp 0.6s ease-out 0.5s forwards;
 }
 
 .slide-up-delay-6 {
-  animation: slideUp 0.8s ease-out 1.2s forwards;
+  animation: slideUp 0.6s ease-out 0.6s forwards;
 }
 
 .slide-up-delay-7 {
-  animation: slideUp 0.8s ease-out 1.4s forwards;
+  animation: slideUp 0.6s ease-out 0.7s forwards;
 }
 
 .slide-up-delay-8 {
-  animation: slideUp 0.8s ease-out 1.6s forwards;
+  animation: slideUp 0.6s ease-out 0.8s forwards;
 }
 
 .slide-up-delay-9 {
-  animation: slideUp 0.8s ease-out 1.8s forwards;
+  animation: slideUp 0.6s ease-out 0.9s forwards;
 }
 
 /* Enhanced hover animations for fact cards */

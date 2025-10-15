@@ -1,19 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Navigation.css';
 
 const Navigation = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
   const navRef = useRef(null);
 
   const toggleMobileMenu = () => {
-    console.log('Mobile menu toggle clicked, current state:', isMobileMenuOpen);
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const handleNavClick = (e) => {
+    if (isNavigating) {
+      e.preventDefault();
+      return;
+    }
+    
+    setIsNavigating(true);
+    closeMobileMenu();
+    
+    // Reset navigation state after a short delay
+    setTimeout(() => {
+      setIsNavigating(false);
+    }, 1000);
   };
 
   // Close mobile menu when clicking outside
@@ -41,7 +56,7 @@ const Navigation = () => {
   return (
     <nav className="navigation" ref={navRef}>
       <div className="nav-container">
-        <Link to="/" className="nav-logo" onClick={closeMobileMenu}>
+        <Link to="/" className="nav-logo" onClick={handleNavClick}>
           ExoPlanet Hunter
         </Link>
         
@@ -60,15 +75,15 @@ const Navigation = () => {
         <div className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
           <Link 
             to="/" 
-            className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
-            onClick={closeMobileMenu}
+            className={`nav-link ${location.pathname === '/' ? 'active' : ''} ${isNavigating ? 'navigating' : ''}`}
+            onClick={handleNavClick}
           >
             Home
           </Link>
           <Link 
             to="/prediction" 
-            className={`nav-link ${location.pathname === '/prediction' ? 'active' : ''}`}
-            onClick={closeMobileMenu}
+            className={`nav-link ${location.pathname === '/prediction' ? 'active' : ''} ${isNavigating ? 'navigating' : ''}`}
+            onClick={handleNavClick}
           >
             Prediction
           </Link>

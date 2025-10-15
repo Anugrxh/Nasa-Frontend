@@ -1100,6 +1100,17 @@ SHAP Explanation Card Styling */
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Mobile optimizations for SHAP container */
+@media (max-width: 768px) {
+  .shap-chart-container {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+  }
 }
 
 .shap-chart-container .recharts-wrapper {

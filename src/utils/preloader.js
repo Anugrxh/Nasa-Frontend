@@ -95,7 +95,13 @@ export const addResourceHints = () => {
 };
 
 // Initialize performance optimizations
+let isInitialized = false;
 export const initPerformanceOptimizations = () => {
+  if (isInitialized) {
+    return;
+  }
+  
+  isInitialized = true;
   addResourceHints();
   preloadCriticalResources();
   

@@ -33,12 +33,17 @@ export const throttle = (func, limit) => {
 };
 
 // Check if device can handle heavy animations
+let cachedDeviceCapability = null;
 export const getDeviceCapability = () => {
+  if (cachedDeviceCapability) {
+    return cachedDeviceCapability;
+  }
+  
   const cores = navigator.hardwareConcurrency || 2;
   const memory = navigator.deviceMemory || 2;
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   
-  return {
+  cachedDeviceCapability = {
     cores,
     memory,
     isMobile,
@@ -46,6 +51,8 @@ export const getDeviceCapability = () => {
     isMediumPerformance: cores >= 2 && memory >= 2,
     isLowPerformance: cores < 2 || memory < 2 || isMobile
   };
+  
+  return cachedDeviceCapability;
 };
 
 // Preload critical resources

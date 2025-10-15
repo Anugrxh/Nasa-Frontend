@@ -1,79 +1,20 @@
 import { Link } from 'react-router-dom';
-import { lazy, Suspense, useEffect, useState, useRef } from 'react';
+import { lazy, Suspense } from 'react';
 import { getDeviceCapability } from '../utils/performance';
 import './HomePage.css';
 
-// Detect device capability once
-const deviceCapability = getDeviceCapability();
-const shouldLoadHeavyComponents = deviceCapability.isHighPerformance || deviceCapability.isMediumPerformance;
-
-// Conditional lazy loading based on device capability
+// Lazy load components
 const BlurText = lazy(() => import('./BlurText'));
 const LightSplashCursor = lazy(() => import('./LightSplashCursor'));
+const LightRays = lazy(() => import('./LightRays'));
+const HeavySplashCursor = lazy(() => import('./SplashCursor'));
 
-// Only load heavy components on capable devices
-const HeavySplashCursor = shouldLoadHeavyComponents
-    ? lazy(() => import('./SplashCursor'))
-    : null;
-
-const LightRays = shouldLoadHeavyComponents
-    ? lazy(() => import('./LightRays'))
-    : null;
-
-// Lightweight intersection observer hook
-const useSimpleInView = (threshold = 0.3) => {
-    const [isInView, setIsInView] = useState(false);
-    const ref = useRef();
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting && !isInView) {
-                    setIsInView(true);
-                    observer.disconnect();
-                }
-            },
-            { threshold }
-        );
-
-        if (ref.current) {
-            observer.observe(ref.current);
-        }
-
-        return () => observer.disconnect();
-    }, [threshold, isInView]);
-
-    return [ref, isInView];
-};
+// Simplified - remove intersection observers that might cause double loading
 
 const HomePage = () => {
-    const [heroRef] = useSimpleInView(0.3);
-    const [factsRef] = useSimpleInView(0.2);
-    const [keplerRef] = useSimpleInView(0.3);
-    const [ctaRef] = useSimpleInView(0.3);
-
-    // Optimize for back/forward cache
-    useEffect(() => {
-        const handlePageShow = (event) => {
-            if (event.persisted) {
-                // Page was restored from cache, no need to reload
-                return;
-            }
-        };
-
-        const handleBeforeUnload = () => {
-            // Clean up any ongoing operations
-            return null;
-        };
-
-        window.addEventListener('pageshow', handlePageShow);
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        return () => {
-            window.removeEventListener('pageshow', handlePageShow);
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, []);
+    // Detect device capability
+    const deviceCapability = getDeviceCapability();
+    const shouldLoadHeavyComponents = deviceCapability.isHighPerformance || deviceCapability.isMediumPerformance;
 
 
 
@@ -86,40 +27,38 @@ const HomePage = () => {
     const renderContent = () => (
         <>
             <Suspense fallback={<div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }} />}>
-                {shouldLoadHeavyComponents && LightRays && HeavySplashCursor ? (
-                    <>
-                        <LightRays
-                            raysOrigin="top-center"
-                            raysColor="#4a90e2"
-                            raysSpeed={0.8}
-                            lightSpread={2.5}
-                            rayLength={2.0}
-                            pulsating={true}
-                            fadeDistance={1.2}
-                            saturation={1.0}
-                            followMouse={true}
-                            mouseInfluence={0.15}
-                            noiseAmount={0.1}
-                            distortion={0.2}
-                        />
-                        <HeavySplashCursor
-                            DENSITY_DISSIPATION={1.5}
-                            VELOCITY_DISSIPATION={1.0}
-                            SPLAT_RADIUS={0.3}
-                            SPLAT_FORCE={6000}
-                            COLOR_UPDATE_SPEED={10}
-                            SHADING={true}
-                        />
-                    </>
+                <LightRays
+                    raysOrigin="top-center"
+                    raysColor="#4a90e2"
+                    raysSpeed={deviceCapability.isMobile ? 0.6 : 0.8}
+                    lightSpread={deviceCapability.isMobile ? 3.0 : 2.5}
+                    rayLength={deviceCapability.isMobile ? 2.5 : 2.0}
+                    pulsating={true}
+                    fadeDistance={deviceCapability.isMobile ? 1.5 : 1.2}
+                    saturation={deviceCapability.isMobile ? 1.2 : 1.0}
+                    followMouse={!deviceCapability.isMobile}
+                    mouseInfluence={deviceCapability.isMobile ? 0 : 0.15}
+                    noiseAmount={0.1}
+                    distortion={0.2}
+                />
+                {shouldLoadHeavyComponents && HeavySplashCursor ? (
+                    <HeavySplashCursor
+                        DENSITY_DISSIPATION={1.5}
+                        VELOCITY_DISSIPATION={1.0}
+                        SPLAT_RADIUS={0.3}
+                        SPLAT_FORCE={6000}
+                        COLOR_UPDATE_SPEED={10}
+                        SHADING={true}
+                    />
                 ) : (
                     <LightSplashCursor />
                 )}
             </Suspense>
 
-            <header className="hero-section slide-up" ref={heroRef}>
+            <header className="hero-section slide-up">
                 <div className="hero-content">
                     <div className="slide-up-delay-1">
-                        <Suspense fallback={<h1 className="hero-title" style={{ opacity: 0 }}>Discover Exoplanets</h1>}>
+                        <Suspense fallback={<h1 className="hero-title">Discover Exoplanets</h1>}>
                             <BlurText
                                 text="Discover Exoplanets"
                                 delay={150}
@@ -144,7 +83,7 @@ const HomePage = () => {
                     </p>
                 </section>
 
-                <section className="facts-grid" ref={factsRef}>
+                <section className="facts-grid">
                     <div className="fact-card slide-up-delay-4">
                         <div className="fact-icon" style={pulseStyle}>🔭</div>
                         <h3>How We Find Them</h3>
@@ -182,7 +121,7 @@ const HomePage = () => {
                     </div>
                 </section>
 
-                <section className="kepler-section slide-up-delay-8" ref={keplerRef}>
+                <section className="kepler-section slide-up-delay-8">
                     <h2>The Kepler Mission</h2>
                     <div className="kepler-content">
                         <div className="kepler-text">
@@ -200,7 +139,7 @@ const HomePage = () => {
                     </div>
                 </section>
 
-                <section className="cta-section slide-up-delay-9" ref={ctaRef}>
+                <section className="cta-section slide-up-delay-9">
                     <h2>Ready to Explore?</h2>
                     <p>
                         Use our prediction tool to analyze real Kepler mission data and help identify

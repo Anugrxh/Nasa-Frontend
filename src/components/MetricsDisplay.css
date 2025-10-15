@@ -243,4 +243,15 @@
   .slide-up-delay-1 { animation-delay: 0.05s; }
   .slide-up-delay-2 { animation-delay: 0.1s; }
   .slide-up-delay-3 { animation-delay: 0.15s; }
+}/* Fal
+lback data notice */
+.metrics-fallback-notice {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  opacity: 0.7;
+}
+
+.metrics-fallback-notice small {
+  color: #94a3b8;
+  font-size: 0.8rem;
 }

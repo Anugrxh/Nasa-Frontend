@@ -105,7 +105,41 @@ export const SimpleSHAPChart = ({ features }) => {
   return (
     <div className="simple-shap-chart">
       <h4>Feature Importance Analysis</h4>
-      <div className="shap-bars">
+      
+      {/* Mobile-optimized card layout */}
+      <div className="shap-cards-mobile">
+        {features.map((feature, index) => (
+          <div key={index} className={`shap-card ${feature.contribution}`}>
+            <div className="shap-card-header">
+              <div className="feature-name-mobile">{feature.feature}</div>
+              <div className={`impact-indicator ${feature.contribution}`}>
+                {feature.contribution === 'positive' ? '↗️' : '↘️'}
+              </div>
+            </div>
+            
+            <div className="shap-card-body">
+              <div className="contribution-text">
+                {feature.contribution === 'positive' ? 'Supports' : 'Against'} Classification
+              </div>
+              
+              <div className="shap-visual">
+                <div className="shap-bar-mobile">
+                  <div 
+                    className={`shap-fill ${feature.contribution}`}
+                    style={{ 
+                      width: `${(Math.abs(feature.value) / maxValue) * 100}%`
+                    }}
+                  ></div>
+                </div>
+                <div className="shap-value-mobile">{Math.abs(feature.value).toFixed(3)}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop layout (hidden on mobile) */}
+      <div className="shap-bars-desktop">
         {features.map((feature, index) => (
           <div key={index} className={`shap-item ${feature.contribution}`}>
             <div className="shap-label">
@@ -127,6 +161,7 @@ export const SimpleSHAPChart = ({ features }) => {
           </div>
         ))}
       </div>
+      
       <div className="shap-legend">
         <div className="legend-item">
           <div className="legend-color positive"></div>
