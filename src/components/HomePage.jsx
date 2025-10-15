@@ -41,7 +41,7 @@ const HomePage = () => {
                     noiseAmount={0.1}
                     distortion={0.2}
                 />
-                {shouldLoadHeavyComponents && HeavySplashCursor ? (
+                {!deviceCapability.isMobile && shouldLoadHeavyComponents && HeavySplashCursor ? (
                     <HeavySplashCursor
                         DENSITY_DISSIPATION={1.5}
                         VELOCITY_DISSIPATION={1.0}
@@ -50,9 +50,9 @@ const HomePage = () => {
                         COLOR_UPDATE_SPEED={10}
                         SHADING={true}
                     />
-                ) : (
+                ) : !deviceCapability.isMobile ? (
                     <LightSplashCursor />
-                )}
+                ) : null}
             </Suspense>
 
             <header className="hero-section slide-up">
