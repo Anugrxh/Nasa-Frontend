@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
 import "./App.css";
 import Navigation from './components/Navigation';
@@ -21,6 +21,31 @@ const PageLoader = () => (
   </div>
 );
 
+// ScrollToTop component to handle page navigation
+const ScrollToTop = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Detect if it's a mobile device
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Scroll to top when route changes
+    if (isMobile) {
+      // Instant scroll for mobile for better performance
+      window.scrollTo(0, 0);
+    } else {
+      // Smooth scroll for desktop
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }
+  }, [location.pathname]);
+
+  return null;
+};
+
 function App() {
   useEffect(() => {
     // Initialize performance optimizations
@@ -30,6 +55,7 @@ function App() {
   return (
     <Router>
       <div className="app">
+        <ScrollToTop />
         <Navigation />
         <Suspense fallback={<PageLoader />}>
           <Routes>
