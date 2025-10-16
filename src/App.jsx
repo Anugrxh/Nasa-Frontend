@@ -29,19 +29,54 @@ const ScrollToTop = () => {
     // Detect if it's a mobile device
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
-    // Scroll to top when route changes
-    if (isMobile) {
-      // Instant scroll for mobile for better performance
+    // Comprehensive scroll to top function
+    const scrollToTop = () => {
+      // Multiple methods to ensure scrolling works
       window.scrollTo(0, 0);
-    } else {
-      // Smooth scroll for desktop
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      
+      // Try scrolling specific containers that might have scroll
+      const scrollableElements = document.querySelectorAll('.app, .home-page, .prediction-page, .results-container');
+      scrollableElements.forEach(element => {
+        if (element) {
+          element.scrollTop = 0;
+        }
       });
-    }
-  }, [location.pathname]);
+      
+      // Force scroll for mobile
+      if (isMobile) {
+        // Additional mobile-specific scroll methods
+        if (window.pageYOffset !== 0) {
+          window.scrollTo(0, 0);
+        }
+      } else {
+        // Smooth scroll for desktop after instant scroll
+        setTimeout(() => {
+          window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+          });
+        }, 50);
+      }
+    };
+
+    // Immediate scroll
+    scrollToTop();
+    
+    // Multiple delayed scrolls to handle different loading scenarios
+    const timeouts = [
+      setTimeout(scrollToTop, 50),
+      setTimeout(scrollToTop, 150),
+      setTimeout(scrollToTop, 300),
+      setTimeout(scrollToTop, 500)
+    ];
+
+    return () => {
+      timeouts.forEach(clearTimeout);
+    };
+  }, [location.pathname, location.key]); // Added location.key for better detection
 
   return null;
 };
